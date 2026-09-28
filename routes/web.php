@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Admin\ReservationController as AdminReservationController;
 use App\Http\Controllers\Admin\MenuCategoryController;
 use App\Http\Controllers\Admin\MenuController as AdminMenuController;
 use App\Http\Controllers\Admin\KaryawanController;
@@ -76,6 +77,16 @@ Route::middleware(['auth', 'role:admin'])
             DashboardController::class,
             'admin'
         ])->name('dashboard');
+
+        Route::get('/reservations', [
+            AdminReservationController::class,
+            'index',
+        ])->name('reservations.index');
+
+        Route::patch('/reservations/{reservation}/table-status', [
+            AdminReservationController::class,
+            'markTableReserved',
+        ])->name('reservations.table-status');
 
         Route::resource('menu-categories', MenuCategoryController::class);
 

@@ -27,7 +27,10 @@ class ReservationController extends Controller
 
     public function create()
     {
-        $tables = RestaurantTable::where('status', 'available')
+        $tables = RestaurantTable::whereIn('status', [
+            'available',
+            'reserved',
+        ])
             ->orderBy('table_number')
             ->get();
 
@@ -103,7 +106,10 @@ class ReservationController extends Controller
                 ->lockForUpdate()
                 ->first();
 
-            if (!$table || $table->status !== 'available') {
+            if (!$table || !in_array($table->status, [
+                'available',
+                'reserved',
+            ], true)) {
                 return 'Meja tersebut sedang tidak tersedia.';
             }
 
@@ -154,10 +160,16 @@ class ReservationController extends Controller
         $requestedStart = Carbon::parse("{$date} {$time}");
 
         return Reservation::query()
-            ->whereBetween('reservation_date', [
-                $requestedStart->copy()->subHour()->toDateString(),
-                $requestedStart->copy()->addHour()->toDateString(),
-            ])
+            ->whereDate(
+                'reservation_date',
+                '>=',
+                $requestedStart->copy()->subHour()->toDateString()
+            )
+            ->whereDate(
+                'reservation_date',
+                '<=',
+                $requestedStart->copy()->addHour()->toDateString()
+            )
             ->whereIn('status', [
                 'pending',
                 'confirmed',

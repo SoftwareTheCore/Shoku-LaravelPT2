@@ -127,7 +127,7 @@
                             @elseif ($reservation->status === 'confirmed')
 
                                 <span class="badge bg-primary">
-                                    Confirmed
+                                    Reserved
                                 </span>
 
                             @elseif ($reservation->status === 'checked_in')
