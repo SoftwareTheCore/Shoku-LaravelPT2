@@ -400,8 +400,9 @@
             }
 
             tableSelect.disabled = false;
-            tableAvailabilityInfo.textContent =
-                'Meja bertanda sudah dipesan tidak tersedia pada waktu ini.';
+            tableAvailabilityInfo.textContent = unavailableTableLabels.length > 0
+                ? 'Meja yang bertanda sudah dipesan tidak bisa dipilih pada waktu ini.'
+                : 'Semua meja tersedia pada tanggal dan jam yang dipilih.';
             tableAvailabilityWarning.classList.toggle(
                 'd-none',
                 unavailableTableLabels.length === 0
