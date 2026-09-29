@@ -1,10 +1,10 @@
-@extends('layouts.app', ['title' => 'Reservasi - Shque'])
+@extends('layouts.app', ['title' => 'Histori Booking - Shque'])
 
 @section('content')
 <div class="container py-5">
     <div class="mb-4">
-        <h2 class="fw-bold mb-1">Reservasi</h2>
-        <p class="text-muted mb-0">Lihat reservasi customer dan atur status meja.</p>
+        <h2 class="fw-bold mb-1">Histori Booking</h2>
+        <p class="text-muted mb-0">Seluruh booking customer dan status terkininya.</p>
     </div>
 
     @if (session('success'))
@@ -36,7 +36,7 @@
                         <th>Aksi</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="reservation-rows">
                     @forelse ($reservations as $reservation)
                         <tr>
                             <td>{{ $reservation->user->name }}</td>
@@ -84,8 +84,53 @@
         </div>
     </div>
 
-    <div class="mt-3">
+    <div class="mt-3" id="reservation-pagination">
         {{ $reservations->links() }}
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        let isRefreshing = false;
+
+        window.setInterval(async () => {
+            if (isRefreshing || document.hidden) {
+                return;
+            }
+
+            isRefreshing = true;
+
+            try {
+                const response = await fetch(window.location.href, {
+                    cache: 'no-store',
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' },
+                });
+
+                if (!response.ok) {
+                    return;
+                }
+
+                const page = new DOMParser().parseFromString(
+                    await response.text(),
+                    'text/html'
+                );
+                const rows = page.querySelector('#reservation-rows');
+                const pagination = page.querySelector('#reservation-pagination');
+
+                if (rows) {
+                    document.querySelector('#reservation-rows').innerHTML = rows.innerHTML;
+                }
+
+                if (pagination) {
+                    document.querySelector('#reservation-pagination').innerHTML = pagination.innerHTML;
+                }
+            } catch {
+            } finally {
+                isRefreshing = false;
+            }
+        }, 5000);
+    });
+</script>
+@endpush

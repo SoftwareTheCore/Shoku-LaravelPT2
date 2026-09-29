@@ -64,6 +64,48 @@ class AdminReservationTableStatusTest extends TestCase
             ->assertSee('Reserved');
     }
 
+    public function test_admin_booking_history_includes_pending_and_confirmed_reservations(): void
+    {
+        $admin = User::factory()->create(['role' => 'admin']);
+        $customer = User::factory()->create(['role' => 'customer']);
+        $pendingTable = RestaurantTable::create([
+            'table_number' => 'M-003',
+            'capacity' => 4,
+            'status' => 'available',
+        ]);
+        $reservedTable = RestaurantTable::create([
+            'table_number' => 'M-004',
+            'capacity' => 4,
+            'status' => 'reserved',
+        ]);
+
+        Reservation::create([
+            'user_id' => $customer->id,
+            'restaurant_table_id' => $pendingTable->id,
+            'reservation_date' => now()->addDay()->toDateString(),
+            'reservation_time' => '18:30',
+            'guest_count' => 2,
+            'status' => 'pending',
+        ]);
+        Reservation::create([
+            'user_id' => $customer->id,
+            'restaurant_table_id' => $reservedTable->id,
+            'reservation_date' => now()->addDays(2)->toDateString(),
+            'reservation_time' => '19:00',
+            'guest_count' => 2,
+            'status' => 'confirmed',
+        ]);
+
+        $this->actingAs($admin)
+            ->get(route('admin.reservations.index'))
+            ->assertOk()
+            ->assertSee('Histori Booking')
+            ->assertSee('M-003')
+            ->assertSee('M-004')
+            ->assertSee('Pending')
+            ->assertSee('Confirmed');
+    }
+
     public function test_customer_cannot_mark_a_reservation_table_as_reserved(): void
     {
         $customer = User::factory()->create(['role' => 'customer']);

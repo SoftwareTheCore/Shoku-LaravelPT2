@@ -312,9 +312,6 @@
                             <a class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" href="{{ route('admin.dashboard') }}">
                                 <i class="bi bi-speedometer2"></i> Dashboard
                             </a>
-                            <a class="nav-link {{ request()->routeIs('admin.reservations.*') ? 'active' : '' }}" href="{{ route('admin.reservations.index') }}">
-                                <i class="bi bi-calendar-check"></i> Reservasi
-                            </a>
                             <a class="nav-link {{ request()->routeIs('admin.menu-categories.*') ? 'active' : '' }}" href="{{ route('admin.menu-categories.index') }}">
                                 <i class="bi bi-tags"></i> Kategori Menu
                             </a>
@@ -326,6 +323,9 @@
                             </a>
                             <a class="nav-link {{ request()->routeIs('admin.meja.*') ? 'active' : '' }}" href="{{ route('admin.meja.index') }}">
                                 <i class="bi bi-grid-3x3-gap"></i> Meja
+                            </a>
+                            <a class="nav-link {{ request()->routeIs('admin.reservations.*') ? 'active' : '' }}" href="{{ route('admin.reservations.index') }}">
+                                <i class="bi bi-calendar-check"></i> Konfirmasi &amp; Histori Booking
                             </a>
                         @elseif (auth()->user()->role === 'karyawan')
                             <a class="nav-link {{ request()->routeIs('karyawan.dashboard') ? 'active' : '' }}" href="{{ route('karyawan.dashboard') }}">
