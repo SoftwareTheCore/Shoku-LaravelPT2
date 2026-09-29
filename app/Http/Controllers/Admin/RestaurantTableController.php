@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\RestaurantTable;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 
 class RestaurantTableController extends Controller
 {
@@ -45,15 +44,6 @@ class RestaurantTableController extends Controller
                 'min:1',
                 'max:50',
             ],
-            'status' => [
-                'required',
-                Rule::in([
-                    'available',
-                    'reserved',
-                    'occupied',
-                    'cleaning',
-                ]),
-            ],
         ], [
             'table_number.required' => 'Nomor meja wajib diisi.',
             'table_number.unique' => 'Nomor meja sudah digunakan.',
@@ -61,10 +51,9 @@ class RestaurantTableController extends Controller
             'capacity.integer' => 'Kapasitas harus berupa angka.',
             'capacity.min' => 'Kapasitas minimal 1 orang.',
             'capacity.max' => 'Kapasitas maksimal 50 orang.',
-            'status.required' => 'Status meja wajib dipilih.',
         ]);
 
-        RestaurantTable::create($validated);
+        RestaurantTable::create($validated + ['status' => 'available']);
 
         return redirect()
             ->route('admin.meja.index')
@@ -105,15 +94,6 @@ class RestaurantTableController extends Controller
                 'min:1',
                 'max:50',
             ],
-            'status' => [
-                'required',
-                Rule::in([
-                    'available',
-                    'reserved',
-                    'occupied',
-                    'cleaning',
-                ]),
-            ],
         ], [
             'table_number.required' => 'Nomor meja wajib diisi.',
             'table_number.unique' => 'Nomor meja sudah digunakan.',
@@ -121,7 +101,6 @@ class RestaurantTableController extends Controller
             'capacity.integer' => 'Kapasitas harus berupa angka.',
             'capacity.min' => 'Kapasitas minimal 1 orang.',
             'capacity.max' => 'Kapasitas maksimal 50 orang.',
-            'status.required' => 'Status meja wajib dipilih.',
         ]);
 
         $meja->update($validated);

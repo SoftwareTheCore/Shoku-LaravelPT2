@@ -101,7 +101,7 @@
 
                         <div class="mb-4">
 
-                            <label class="form-label fw-semibold">
+                            <!-- <label class="form-label fw-semibold">
                                 Status
                             </label>
 
@@ -143,7 +143,7 @@
                                 </div>
                             @enderror
 
-                        </div>
+                        </div> -->
 
 
                         <div class="d-flex justify-content-end gap-2">
