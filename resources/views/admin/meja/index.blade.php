@@ -59,8 +59,6 @@
                             <th width="70">No</th>
                             <th>Nomor Meja</th>
                             <th>Kapasitas</th>
-                            <th>Status</th>
-                            <th>Dibuat</th>
                             <th width="230">Aksi</th>
                         </tr>
 
@@ -86,40 +84,6 @@
 
                                 <td>
                                     {{ $table->capacity }} orang
-                                </td>
-
-                                <td>
-
-                                    @if ($table->status === 'available')
-
-                                        <span class="badge bg-success">
-                                            Available
-                                        </span>
-
-                                    @elseif ($table->status === 'reserved')
-
-                                        <span class="badge bg-warning text-dark">
-                                            Reserved
-                                        </span>
-
-                                    @elseif ($table->status === 'occupied')
-
-                                        <span class="badge bg-danger">
-                                            Occupied
-                                        </span>
-
-                                    @elseif ($table->status === 'cleaning')
-
-                                        <span class="badge bg-secondary">
-                                            Cleaning
-                                        </span>
-
-                                    @endif
-
-                                </td>
-
-                                <td>
-                                    {{ $table->created_at->format('d/m/Y') }}
                                 </td>
 
                                 <td>
@@ -162,7 +126,7 @@
 
                             <tr>
 
-                                <td colspan="6"
+                                <td colspan="4"
                                     class="text-center py-5">
 
                                     <i class="bi bi-grid-3x3-gap fs-1 text-muted"></i>
