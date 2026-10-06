@@ -12,12 +12,12 @@
             </h2>
 
             <p class="text-muted mb-0">
-                Kelola meja yang tersedia di restoran Shque.
+                Kelola meja yang tersedia di restoran Shoku.
             </p>
         </div>
 
         <a href="{{ route('admin.meja.create') }}"
-           class="btn btn-shque">
+           class="btn btn-shoku">
 
             <i class="bi bi-plus-circle me-1"></i>
             Tambah Meja

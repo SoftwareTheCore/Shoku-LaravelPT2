@@ -12,7 +12,7 @@
             </h2>
 
             <p class="text-muted">
-                Kelola pesanan, booking, dan stok menu Shque.
+                Kelola pesanan, booking, dan stok menu Shoku.
             </p>
         </div>
 

@@ -1,4 +1,4 @@
-@extends('layouts.app', ['title' => 'Detail Menu - Shque'])
+@extends('layouts.app', ['title' => 'Detail Menu - Shoku'])
 
 @section('content')
 
@@ -15,7 +15,7 @@
                 </h2>
 
                 <p class="text-muted">
-                    Informasi lengkap menu Shque.
+                    Informasi lengkap menu Shoku.
                 </p>
 
             </div>

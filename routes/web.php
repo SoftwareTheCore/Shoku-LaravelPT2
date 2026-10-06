@@ -17,6 +17,10 @@ Route::get('/', function () {
     return view('home');
 })->name('home');
 
+Route::get('/brand-logo', function () {
+    return response()->file(storage_path('images/Shoku-LOGO.webp'));
+})->name('brand.logo');
+
 /*
 |--------------------------------------------------------------------------
 | Authentication

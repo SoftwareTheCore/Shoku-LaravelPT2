@@ -51,7 +51,7 @@
                         </h4>
 
                         <p class="text-muted mb-0">
-                            Meja Restoran Shque
+                            Meja Restoran Shoku
                         </p>
 
                     </div>

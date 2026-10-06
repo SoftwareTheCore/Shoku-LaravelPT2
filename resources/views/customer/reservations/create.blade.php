@@ -253,7 +253,7 @@
 
                                 <button
                                     type="submit"
-                                    class="btn btn-shque"
+                                    class="btn btn-shoku"
                                 >
                                     <i class="bi bi-calendar-check me-1"></i>
                                     Kirim Reservasi

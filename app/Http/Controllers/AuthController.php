@@ -63,7 +63,7 @@ class AuthController extends Controller
 
             'customer' => redirect()
                 ->route('customer.dashboard')
-                ->with('success', 'Selamat datang di Shque!'),
+                ->with('success', 'Selamat datang di Shoku!'),
 
             default => tap(Auth::logout(), function () use ($request) {
                 $request->session()->invalidate();
@@ -122,7 +122,7 @@ class AuthController extends Controller
 
         return redirect()
             ->route('customer.dashboard')
-            ->with('success', 'Registrasi berhasil. Selamat datang di Shque!');
+            ->with('success', 'Registrasi berhasil. Selamat datang di Shoku!');
     }
 
     public function logout(Request $request)

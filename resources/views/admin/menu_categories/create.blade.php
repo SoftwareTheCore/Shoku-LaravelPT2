@@ -1,4 +1,4 @@
-@extends('layouts.app', ['title' => 'Tambah Kategori - Shque'])
+@extends('layouts.app', ['title' => 'Tambah Kategori - Shoku'])
 
 @section('content')
 
@@ -86,7 +86,7 @@
 
                             <button
                                 type="submit"
-                                class="btn btn-shque"
+                                class="btn btn-shoku"
                             >
                                 <i class="bi bi-check-lg me-1"></i>
                                 Simpan Kategori

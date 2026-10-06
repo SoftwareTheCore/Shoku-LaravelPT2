@@ -7,7 +7,7 @@
     <div class="text-center mb-5">
 
         <h2 class="fw-bold">
-            Menu Shque
+            Menu Shoku
         </h2>
 
         <p class="text-muted">
@@ -81,13 +81,13 @@
 
                                     <div class="d-flex justify-content-between align-items-center">
 
-                                        <strong class="shque-orange">
+                                        <strong class="shoku-orange">
                                             Rp {{ number_format($menu->price, 0, ',', '.') }}
                                         </strong>
 
                                         <a
                                             href="{{ route('customer.menu.show', $menu) }}"
-                                            class="btn btn-sm btn-shque"
+                                            class="btn btn-sm btn-shoku"
                                         >
                                             Detail
                                         </a>

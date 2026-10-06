@@ -56,7 +56,7 @@
                 {{ $menu->name }}
             </h1>
 
-            <h3 class="shque-orange fw-bold mb-4">
+            <h3 class="shoku-orange fw-bold mb-4">
                 Rp {{ number_format($menu->price, 0, ',', '.') }}
             </h3>
 
@@ -77,7 +77,7 @@
             <div class="d-flex flex-wrap gap-2">
                 <a
                     href="{{ route('customer.orders.create', ['menu' => $menu->id]) }}"
-                    class="btn btn-shque"
+                    class="btn btn-shoku"
                 >
                     <i class="bi bi-bag-plus me-1"></i>
                     Pesan Menu

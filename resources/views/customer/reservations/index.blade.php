@@ -20,7 +20,7 @@
 
         <a
             href="{{ route('customer.reservations.create') }}"
-            class="btn btn-shque"
+            class="btn btn-shoku"
         >
             <i class="bi bi-calendar-plus me-1"></i>
             Buat Reservasi

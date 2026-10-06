@@ -11,12 +11,12 @@
             </h2>
 
             <p class="text-muted mb-0">
-                Kelola seluruh data karyawan Shque.
+                Kelola seluruh data karyawan Shoku.
             </p>
         </div>
 
         <a href="{{ route('admin.karyawan.create') }}"
-           class="btn btn-shque">
+           class="btn btn-shoku">
             <i class="bi bi-person-plus me-1"></i>
             Tambah Karyawan
         </a>

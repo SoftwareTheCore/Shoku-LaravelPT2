@@ -78,7 +78,7 @@
                                 name="email"
                                 class="form-control @error('email') is-invalid @enderror"
                                 value="{{ old('email') }}"
-                                placeholder="contoh@shque.test"
+                                placeholder="contoh@shoku.test"
                                 required
                             >
 
@@ -164,7 +164,7 @@
                             </a>
 
                             <button type="submit"
-                                    class="btn btn-shque">
+                                    class="btn btn-shoku">
 
                                 <i class="bi bi-save me-1"></i>
                                 Simpan Karyawan

@@ -12,7 +12,7 @@
             </h2>
 
             <p class="text-muted">
-                Selamat datang di Shque Japanese Restaurant.
+                Selamat datang di Shoku Japanese Restaurant.
             </p>
         </div>
 

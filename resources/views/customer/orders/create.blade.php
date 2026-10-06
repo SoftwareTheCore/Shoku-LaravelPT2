@@ -1,4 +1,4 @@
-@extends('layouts.app', ['title' => 'Buat Order - Shque'])
+@extends('layouts.app', ['title' => 'Buat Order - Shoku'])
 
 @section('content')
 <div class="container py-5">
@@ -78,7 +78,7 @@
                                                 <p class="small text-muted mb-2">{{ $menu->description }}</p>
                                             @endif
                                         </div>
-                                        <span class="text-nowrap fw-semibold shque-orange">
+                                        <span class="text-nowrap fw-semibold shoku-orange">
                                             Rp {{ number_format($menu->price, 0, ',', '.') }}
                                         </span>
                                     </div>
@@ -110,7 +110,7 @@
         <div class="d-flex justify-content-end mt-4">
             <button
                 type="submit"
-                class="btn btn-shque"
+                class="btn btn-shoku"
                 {{ $reservations->isEmpty() || $categories->isEmpty() ? 'disabled' : '' }}
             >
                 <i class="bi bi-bag-check me-1"></i>Buat Order

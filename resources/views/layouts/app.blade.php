@@ -7,11 +7,12 @@
     @php
         $role = auth()->user()?->role;
         $appName = match ($role) {
-            'admin' => 'My Admin Shque',
-            'karyawan' => 'My Karyawan Shque',
-            'customer' => 'Shque Japanese Resto',
-            default => 'Shque',
+            'admin' => 'My Admin Shoku',
+            'karyawan' => 'My Karyawan Shoku',
+            'customer' => 'Shoku Japanese Resto',
+            default => 'Shoku',
         };
+        $logoPath = route('brand.logo');
         $workspaceUrl = match ($role) {
             'admin' => route('admin.dashboard'),
             'karyawan' => route('karyawan.dashboard'),
@@ -75,15 +76,10 @@
         }
 
         .brand-mark {
-            width: 38px;
-            height: 38px;
-            flex: 0 0 38px;
-            display: grid;
-            place-items: center;
-            border-radius: 9px;
-            background-color: #d35400;
-            color: #fff;
-            font-size: 1.15rem;
+            width: 48px;
+            height: 48px;
+            flex: 0 0 48px;
+            object-fit: contain;
         }
 
         .brand-caption {
@@ -136,12 +132,12 @@
         }
 
         .app-sidebar .nav-link.active {
-            background-color: rgba(211, 84, 0, .2);
-            box-shadow: inset 3px 0 #e77832;
+            background-color: rgba(255, 82, 50, .2);
+            box-shadow: inset 3px 0 rgb(255, 82, 50);
         }
 
         .app-sidebar .nav-link.active i {
-            color: #f2a06f;
+            color: rgb(255, 82, 50);
         }
 
         .sidebar-bottom {
@@ -167,8 +163,8 @@
             display: grid;
             place-items: center;
             border-radius: 50%;
-            background-color: #f1c3a8;
-            color: #542b18;
+            background-color: rgb(255, 82, 50);
+            color: #fff;
             font-size: 1rem;
         }
 
@@ -184,8 +180,8 @@
         }
 
         .sidebar-logout:hover {
-            border-color: #a94418;
-            background-color: rgba(211, 84, 0, .14);
+            border-color: rgb(255, 82, 50);
+            background-color: rgba(255, 82, 50, .14);
             color: #fff;
         }
 
@@ -227,7 +223,6 @@
             width: 32px;
             height: 32px;
             flex-basis: 32px;
-            font-size: 1rem;
         }
 
         .app-content {
@@ -254,19 +249,25 @@
             text-decoration: none;
         }
 
-        .shque-orange {
-            color: #d35400;
+        .navbar-logo {
+            width: 112px;
+            height: 48px;
+            object-fit: contain;
         }
 
-        .btn-shque {
-            background-color: #d35400;
-            border-color: #d35400;
+        .shoku-orange {
+            color: rgb(255, 82, 50);
+        }
+
+        .btn-shoku {
+            background-color: rgb(255, 82, 50);
+            border-color: rgb(255, 82, 50);
             color: white;
         }
 
-        .btn-shque:hover {
-            background-color: #a84300;
-            border-color: #a84300;
+        .btn-shoku:hover {
+            background-color: rgb(255, 82, 50);
+            border-color: rgb(255, 82, 50);
             color: white;
         }
 
@@ -301,7 +302,7 @@
             <aside class="offcanvas-lg offcanvas-start app-sidebar" tabindex="-1" id="appSidebar" aria-labelledby="appSidebarLabel">
                 <div class="offcanvas-header sidebar-mobile-header">
                     <a class="sidebar-brand" href="{{ $workspaceUrl }}" id="appSidebarLabel">
-                        <span class="brand-mark"><i class="bi bi-shop"></i></span>
+                        <img class="brand-mark" src="{{ $logoPath }}" alt="Shoku">
                         <span>{{ $appName }}<small class="brand-caption">Restaurant workspace</small></span>
                     </a>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" data-bs-target="#appSidebar" aria-label="Tutup menu"></button>
@@ -309,7 +310,7 @@
 
                 <div class="offcanvas-body app-sidebar-body">
                     <a class="sidebar-brand d-none d-lg-flex" href="{{ $workspaceUrl }}">
-                        <span class="brand-mark"><i class="bi bi-shop"></i></span>
+                        <img class="brand-mark" src="{{ $logoPath }}" alt="Shoku">
                         <span>{{ $appName }}<small class="brand-caption">Restaurant workspace</small></span>
                     </a>
 
@@ -385,7 +386,7 @@
                         <i class="bi bi-list fs-4"></i>
                     </button>
                     <a class="mobile-brand d-flex align-items-center gap-2" href="{{ $workspaceUrl }}">
-                        <span class="brand-mark"><i class="bi bi-shop"></i></span>{{ $appName }}
+                        <img class="brand-mark" src="{{ $logoPath }}" alt="Shoku">{{ $appName }}
                     </a>
                 </div>
 
@@ -394,20 +395,22 @@
                 </main>
 
                 <footer class="app-footer">
-                    &copy; {{ date('Y') }} Shque. Japanese Restaurant Management System.
+                    &copy; {{ date('Y') }} Shoku. Japanese Restaurant Management System.
                 </footer>
             </div>
         </div>
     @else
         <div class="app-main min-vh-100">
             <nav class="public-navbar">
-                <a class="navbar-brand" href="{{ route('home') }}">{{ $appName }}</a>
+                <a class="navbar-brand" href="{{ route('home') }}">
+                    <img class="navbar-logo" src="{{ $logoPath }}" alt="Shoku">
+                </a>
                 @if (request()->routeIs('login'))
-                    <a href="{{ route('home') }}" class="btn btn-shque">
+                    <a href="{{ route('home') }}" class="btn btn-shoku">
                         <i class="bi bi-house-door me-1"></i> Kembali ke Home
                     </a>
                 @else
-                    <a href="{{ route('login') }}" class="btn btn-shque">
+                    <a href="{{ route('login') }}" class="btn btn-shoku">
                         <i class="bi bi-box-arrow-in-right me-1"></i> Login
                     </a>
                 @endif
@@ -418,7 +421,7 @@
             </main>
 
             <footer class="app-footer">
-                &copy; {{ date('Y') }} Shque. Japanese Restaurant Management System.
+                &copy; {{ date('Y') }} Shoku. Japanese Restaurant Management System.
             </footer>
         </div>
     @endauth

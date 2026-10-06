@@ -10,29 +10,29 @@
         <div class="home-hero__overlay"></div>
 
         <div class="container home-hero__content">
-            <p class="home-hero__eyebrow">Japanese dining · Shque</p>
-            <h1>Shque<br><span>Japanese Resto</span></h1>
+            <p class="home-hero__eyebrow">Japanese dining · Shoku</p>
+            <h1>Shoku<br><span>Japanese Resto</span></h1>
             <p class="home-hero__description">
                 Temukan kehangatan suasana dan cita rasa Jepang dalam setiap kunjungan.
             </p>
-            <a href="{{ route('login') }}" class="btn btn-shque btn-lg home-hero__button">
+            <a href="{{ route('login') }}" class="btn btn-shoku btn-lg home-hero__button">
                 Masuk ke akun <i class="bi bi-arrow-up-right ms-2"></i>
             </a>
         </div>
 
-        <a class="home-hero__scroll" href="#tentang-shque" aria-label="Lihat tentang Shque">
+        <a class="home-hero__scroll" href="#tentang-shoku" aria-label="Lihat tentang Shoku">
             <span></span>
-            <span class="visually-hidden">Gulir untuk mengenal Shque</span>
+            <span class="visually-hidden">Gulir untuk mengenal Shoku</span>
         </a>
     </section>
 
-    <section class="home-intro" id="tentang-shque">
+    <section class="home-intro" id="tentang-shoku">
         <div class="container home-intro__inner">
-            <p class="home-intro__eyebrow">Selamat datang di Shque</p>
+            <p class="home-intro__eyebrow">Selamat datang di Shoku</p>
             <div class="home-intro__copy">
                 <h2>Ruang untuk menikmati momen, dengan sentuhan Jepang.</h2>
                 <p>
-                    Shque menghadirkan pengalaman restoran Jepang yang nyaman untuk
+                    Shoku menghadirkan pengalaman restoran Jepang yang nyaman untuk
                     dinikmati bersama keluarga, teman, maupun diri sendiri.
                 </p>
             </div>
@@ -81,7 +81,7 @@
             .home-hero__eyebrow,
             .home-intro__eyebrow {
                 margin-bottom: 22px;
-                color: #f0a16b;
+                color: rgb(255, 82, 50);
                 font-size: .78rem;
                 font-weight: 700;
                 letter-spacing: .16em;
@@ -98,7 +98,7 @@
             }
 
             .home-hero h1 span {
-                color: #f0a16b;
+                color: rgb(255, 82, 50);
                 font-size: .56em;
                 font-weight: 400;
             }
@@ -152,7 +152,7 @@
 
             .home-intro__eyebrow {
                 margin: 8px 0 0;
-                color: #a84300;
+                color: rgb(255, 82, 50);
             }
 
             .home-intro__copy h2 {
@@ -174,7 +174,7 @@
             }
 
             .home-intro__mark {
-                color: #d35400;
+                color: rgb(255, 82, 50);
                 font-family: Georgia, 'Times New Roman', serif;
                 font-size: 3rem;
                 line-height: 1;

@@ -1,4 +1,4 @@
-@extends('layouts.app', ['title' => 'Menu - Shque'])
+@extends('layouts.app', ['title' => 'Menu - Shoku'])
 
 @section('content')
 
@@ -13,12 +13,12 @@
             </h2>
 
             <p class="text-muted mb-0">
-                Kelola daftar menu makanan dan minuman Shque.
+                Kelola daftar menu makanan dan minuman Shoku.
             </p>
         </div>
 
         <a href="{{ route('admin.menus.create') }}"
-           class="btn btn-shque">
+           class="btn btn-shoku">
             <i class="bi bi-plus-lg me-1"></i>
             Tambah Menu
         </a>

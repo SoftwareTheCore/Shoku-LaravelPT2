@@ -1,4 +1,4 @@
-@extends('layouts.app', ['title' => 'Tambah Menu - Shque'])
+@extends('layouts.app', ['title' => 'Tambah Menu - Shoku'])
 
 @section('content')
 
@@ -15,7 +15,7 @@
                 </h2>
 
                 <p class="text-muted">
-                    Tambahkan menu baru ke dalam daftar menu Shque.
+                    Tambahkan menu baru ke dalam daftar menu Shoku.
                 </p>
 
             </div>
@@ -250,7 +250,7 @@
 
                             <button
                                 type="submit"
-                                class="btn btn-shque"
+                                class="btn btn-shoku"
                             >
                                 <i class="bi bi-check-lg me-1"></i>
                                 Simpan Menu

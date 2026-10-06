@@ -1,4 +1,4 @@
-@extends('layouts.app', ['title' => 'Histori Order - Shque'])
+@extends('layouts.app', ['title' => 'Histori Order - Shoku'])
 
 @section('content')
 <div class="container py-5">

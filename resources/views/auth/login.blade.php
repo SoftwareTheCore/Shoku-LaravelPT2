@@ -19,7 +19,7 @@
                         </h2>
 
                         <p class="text-muted mb-0">
-                            Masuk ke sistem Shque
+                            Masuk ke sistem Shoku
                         </p>
 
                     </div>
@@ -116,7 +116,7 @@
 
                         <button
                             type="submit"
-                            class="btn btn-shque w-100 py-2"
+                            class="btn btn-shoku w-100 py-2"
                         >
                             Login
                         </button>

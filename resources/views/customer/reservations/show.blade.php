@@ -36,7 +36,7 @@
 
                     <div class="text-center mb-4">
 
-                        <i class="bi bi-calendar-check fs-1 shque-orange"></i>
+                        <i class="bi bi-calendar-check fs-1 shoku-orange"></i>
 
                         <h3 class="fw-bold mt-2">
                             {{ $reservation->table->table_number }}
@@ -112,7 +112,7 @@
                         <div class="text-center mt-4">
                             <a
                                 href="{{ route('customer.orders.create', ['reservation' => $reservation->id]) }}"
-                                class="btn btn-shque"
+                                class="btn btn-shoku"
                             >
                                 <i class="bi bi-bag-plus me-1"></i>Pesan untuk Reservasi Ini
                             </a>

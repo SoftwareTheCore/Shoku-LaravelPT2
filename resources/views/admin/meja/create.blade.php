@@ -156,7 +156,7 @@
                             </a>
 
                             <button type="submit"
-                                    class="btn btn-shque">
+                                    class="btn btn-shoku">
 
                                 <i class="bi bi-save me-1"></i>
                                 Simpan Meja

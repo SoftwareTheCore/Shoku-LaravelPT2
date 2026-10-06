@@ -19,7 +19,7 @@
                         </h2>
 
                         <p class="text-muted">
-                            Buat akun untuk melakukan reservasi di Shque.
+                            Buat akun untuk melakukan reservasi di Shoku.
                         </p>
 
                     </div>
@@ -133,7 +133,7 @@
 
                         <button
                             type="submit"
-                            class="btn btn-shque w-100 py-2"
+                            class="btn btn-shoku w-100 py-2"
                         >
                             Daftar
                         </button>

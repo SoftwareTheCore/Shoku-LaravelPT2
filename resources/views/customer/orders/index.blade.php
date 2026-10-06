@@ -1,4 +1,4 @@
-@extends('layouts.app', ['title' => 'Order Saya - Shque'])
+@extends('layouts.app', ['title' => 'Order Saya - Shoku'])
 
 @section('content')
 <div class="container py-5">
@@ -7,7 +7,7 @@
             <h2 class="fw-bold mb-1">Order Saya</h2>
             <p class="text-muted mb-0">Riwayat pesanan dan reservasi yang terhubung.</p>
         </div>
-        <a href="{{ route('customer.orders.create') }}" class="btn btn-shque">
+        <a href="{{ route('customer.orders.create') }}" class="btn btn-shoku">
             <i class="bi bi-plus-lg me-1"></i>Buat Order
         </a>
     </div>

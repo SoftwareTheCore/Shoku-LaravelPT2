@@ -12,7 +12,7 @@
             </h2>
 
             <p class="text-muted mb-0">
-                Selamat datang di sistem manajemen Shque.
+                Selamat datang di sistem manajemen Shoku.
             </p>
         </div>
 
@@ -65,7 +65,7 @@
                     </small>
 
                     <h4 class="fw-bold mb-0">
-                        Shque
+                        Shoku
                     </h4>
 
                 </div>
