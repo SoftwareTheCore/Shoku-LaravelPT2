@@ -74,13 +74,23 @@
 
             </div>
 
-            <a
-                href="{{ route('customer.reservations.create') }}"
-                class="btn btn-shque"
-            >
-                <i class="bi bi-calendar-check me-1"></i>
-                Reservasi Meja
-            </a>
+            <div class="d-flex flex-wrap gap-2">
+                <a
+                    href="{{ route('customer.orders.create', ['menu' => $menu->id]) }}"
+                    class="btn btn-shque"
+                >
+                    <i class="bi bi-bag-plus me-1"></i>
+                    Pesan Menu
+                </a>
+
+                <a
+                    href="{{ route('customer.reservations.create') }}"
+                    class="btn btn-outline-secondary"
+                >
+                    <i class="bi bi-calendar-check me-1"></i>
+                    Reservasi Meja
+                </a>
+            </div>
 
         </div>
 
