@@ -5,11 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     @php
-        $appName = match (auth()->user()?->role) {
+        $role = auth()->user()?->role;
+        $appName = match ($role) {
             'admin' => 'My Admin Shque',
             'karyawan' => 'My Karyawan Shque',
             'customer' => 'Shque Japanese Resto',
             default => 'Shque',
+        };
+        $workspaceUrl = match ($role) {
+            'admin' => route('admin.dashboard'),
+            'karyawan' => route('karyawan.dashboard'),
+            'customer' => route('customer.dashboard'),
+            default => route('home'),
         };
     @endphp
 
@@ -293,7 +300,7 @@
         <div class="app-shell">
             <aside class="offcanvas-lg offcanvas-start app-sidebar" tabindex="-1" id="appSidebar" aria-labelledby="appSidebarLabel">
                 <div class="offcanvas-header sidebar-mobile-header">
-                    <a class="sidebar-brand" href="/" id="appSidebarLabel">
+                    <a class="sidebar-brand" href="{{ $workspaceUrl }}" id="appSidebarLabel">
                         <span class="brand-mark"><i class="bi bi-shop"></i></span>
                         <span>{{ $appName }}<small class="brand-caption">Restaurant workspace</small></span>
                     </a>
@@ -301,7 +308,7 @@
                 </div>
 
                 <div class="offcanvas-body app-sidebar-body">
-                    <a class="sidebar-brand d-none d-lg-flex" href="/">
+                    <a class="sidebar-brand d-none d-lg-flex" href="{{ $workspaceUrl }}">
                         <span class="brand-mark"><i class="bi bi-shop"></i></span>
                         <span>{{ $appName }}<small class="brand-caption">Restaurant workspace</small></span>
                     </a>
@@ -371,7 +378,7 @@
                     <button class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#appSidebar" aria-controls="appSidebar" aria-label="Buka menu">
                         <i class="bi bi-list fs-4"></i>
                     </button>
-                    <a class="mobile-brand d-flex align-items-center gap-2" href="/">
+                    <a class="mobile-brand d-flex align-items-center gap-2" href="{{ $workspaceUrl }}">
                         <span class="brand-mark"><i class="bi bi-shop"></i></span>{{ $appName }}
                     </a>
                 </div>

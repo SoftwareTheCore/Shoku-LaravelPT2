@@ -64,4 +64,20 @@ class RestaurantTableManagementTest extends TestCase
             'status' => 'reserved',
         ]);
     }
+
+    public function test_admin_workspace_brand_links_to_admin_dashboard(): void
+    {
+        $admin = User::factory()->create(['role' => 'admin']);
+        $table = RestaurantTable::create([
+            'table_number' => 'M-103',
+            'capacity' => 4,
+            'status' => 'available',
+        ]);
+
+        $this->actingAs($admin)
+            ->get(route('admin.meja.edit', $table))
+            ->assertOk()
+            ->assertSee('href="' . route('admin.dashboard') . '"', false)
+            ->assertDontSee('href="' . route('home') . '"', false);
+    }
 }
