@@ -327,6 +327,9 @@
                             <a class="nav-link {{ request()->routeIs('admin.reservations.*') ? 'active' : '' }}" href="{{ route('admin.reservations.index') }}">
                                 <i class="bi bi-calendar-check"></i> Konfirmasi &amp; Histori Booking
                             </a>
+                            <a class="nav-link {{ request()->routeIs('admin.orders.*') ? 'active' : '' }}" href="{{ route('admin.orders.index') }}">
+                                <i class="bi bi-receipt"></i> Histori Order
+                            </a>
                         @elseif (auth()->user()->role === 'karyawan')
                             <a class="nav-link {{ request()->routeIs('karyawan.dashboard') ? 'active' : '' }}" href="{{ route('karyawan.dashboard') }}">
                                 <i class="bi bi-clipboard-check"></i> Dashboard Karyawan
@@ -340,6 +343,9 @@
                             </a>
                             <a class="nav-link {{ request()->routeIs('customer.reservations.*') ? 'active' : '' }}" href="{{ route('customer.reservations.index') }}">
                                 <i class="bi bi-calendar-check"></i> Reservasi
+                            </a>
+                            <a class="nav-link {{ request()->routeIs('customer.orders.*') ? 'active' : '' }}" href="{{ route('customer.orders.index') }}">
+                                <i class="bi bi-bag"></i> Order Saya
                             </a>
                         @else
                             <a class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">

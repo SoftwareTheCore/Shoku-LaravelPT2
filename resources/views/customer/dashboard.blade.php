@@ -41,8 +41,7 @@
             </h5>
 
             <p class="text-muted mb-0">
-                Dari sini nantinya kamu dapat melakukan reservasi
-                dan melihat riwayat reservasi.
+                Jelajahi menu, buat order untuk reservasi aktif, dan pantau riwayatnya.
             </p>
 
         </div>

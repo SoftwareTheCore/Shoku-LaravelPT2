@@ -7,22 +7,22 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Reservation extends Model
+class Order extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'user_id',
-        'restaurant_table_id',
-        'reservation_date',
-        'reservation_time',
-        'guest_count',
-        'notes',
+        'reservation_id',
+        'total_amount',
         'status',
+        'admin_note',
+        'completed_at',
     ];
 
     protected $casts = [
-        'reservation_date' => 'date',
+        'total_amount' => 'decimal:2',
+        'completed_at' => 'datetime',
     ];
 
     public function user(): BelongsTo
@@ -30,16 +30,13 @@ class Reservation extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function table(): BelongsTo
+    public function reservation(): BelongsTo
     {
-        return $this->belongsTo(
-            RestaurantTable::class,
-            'restaurant_table_id'
-        );
+        return $this->belongsTo(Reservation::class);
     }
 
-    public function orders(): HasMany
+    public function items(): HasMany
     {
-        return $this->hasMany(Order::class);
+        return $this->hasMany(OrderItem::class);
     }
 }

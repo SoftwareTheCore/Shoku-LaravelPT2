@@ -57,7 +57,6 @@
 
                     </div>
 
-
                     <div class="row mb-3">
 
                         <div class="col-sm-5 text-muted">
@@ -108,6 +107,17 @@
                         </div>
 
                     </div>
+
+                    @if (in_array($reservation->status, ['pending', 'confirmed', 'checked_in'], true))
+                        <div class="text-center mt-4">
+                            <a
+                                href="{{ route('customer.orders.create', ['reservation' => $reservation->id]) }}"
+                                class="btn btn-shque"
+                            >
+                                <i class="bi bi-bag-plus me-1"></i>Pesan untuk Reservasi Ini
+                            </a>
+                        </div>
+                    @endif
 
 
                     <div class="row mb-3">
