@@ -1,169 +1,200 @@
 @extends('layouts.app')
 
 @section('content')
-
-<div class="container py-5">
-
-    <div class="row justify-content-center">
-
-        <div class="col-md-7 col-lg-6">
-
-            <div class="card border-0 shadow-sm">
-
-                <div class="card-body p-4 p-md-5">
-
-                    <div class="text-center mb-4">
-
-                        <h2 class="fw-bold">
-                            Daftar Customer
-                        </h2>
-
-                        <p class="text-muted">
-                            Buat akun untuk melakukan reservasi di Shoku.
-                        </p>
-
+<div class="auth-wrapper py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                <div class="auth-card">
+                    <div class="auth-card__header text-center">
+                        <h1 class="auth-card__title">Daftar Customer</h1>
+                        <p class="auth-card__subtitle">Buat akun untuk melakukan reservasi di Shoku.</p>
                     </div>
 
                     @if($errors->any())
-
-                        <div class="alert alert-danger">
-
-                            <ul class="mb-0">
-
+                        <div class="alert alert-danger mb-4" role="alert">
+                            <ul class="mb-0 ps-3">
                                 @foreach($errors->all() as $error)
                                     <li>{{ $error }}</li>
                                 @endforeach
-
                             </ul>
-
                         </div>
-
                     @endif
 
-                    <form
-                        action="{{ route('register') }}"
-                        method="POST"
-                    >
-
+                    <form action="{{ route('register') }}" method="POST" class="auth-form">
                         @csrf
 
                         <div class="mb-3">
-
-                            <label
-                                for="name"
-                                class="form-label"
-                            >
-                                Nama Lengkap
-                            </label>
-
-                            <input
-                                type="text"
-                                class="form-control"
-                                id="name"
-                                name="name"
-                                value="{{ old('name') }}"
-                                required
-                            >
-
+                            <label for="name" class="form-label auth-label">Nama Lengkap</label>
+                            <div class="input-group">
+                                <span class="input-group-text auth-input-icon">
+                                    <i class="bi bi-person"></i>
+                                </span>
+                                <input
+                                    type="text"
+                                    class="form-control auth-input"
+                                    id="name"
+                                    name="name"
+                                    value="{{ old('name') }}"
+                                    placeholder="Nama lengkap Anda"
+                                    required
+                                    autofocus
+                                    autocomplete="name"
+                                >
+                            </div>
                         </div>
 
                         <div class="mb-3">
-
-                            <label
-                                for="email"
-                                class="form-label"
-                            >
-                                Email
-                            </label>
-
-                            <input
-                                type="email"
-                                class="form-control"
-                                id="email"
-                                name="email"
-                                value="{{ old('email') }}"
-                                required
-                            >
-
+                            <label for="email" class="form-label auth-label">Email</label>
+                            <div class="input-group">
+                                <span class="input-group-text auth-input-icon">
+                                    <i class="bi bi-envelope"></i>
+                                </span>
+                                <input
+                                    type="email"
+                                    class="form-control auth-input"
+                                    id="email"
+                                    name="email"
+                                    value="{{ old('email') }}"
+                                    placeholder="nama@email.com"
+                                    required
+                                    autocomplete="email"
+                                >
+                            </div>
                         </div>
 
                         <div class="mb-3">
-
-                            <label
-                                for="password"
-                                class="form-label"
-                            >
-                                Password
-                            </label>
-
-                            <input
-                                type="password"
-                                class="form-control"
-                                id="password"
-                                name="password"
-                                minlength="8"
-                                required
-                            >
-
-                            <small class="text-muted">
-                                Minimal 8 karakter.
-                            </small>
-
+                            <label for="password" class="form-label auth-label">Password</label>
+                            <div class="input-group">
+                                <span class="input-group-text auth-input-icon">
+                                    <i class="bi bi-lock"></i>
+                                </span>
+                                <input
+                                    type="password"
+                                    class="form-control auth-input"
+                                    id="password"
+                                    name="password"
+                                    minlength="8"
+                                    placeholder="Masukkan password"
+                                    required
+                                    autocomplete="new-password"
+                                >
+                            </div>
                         </div>
 
-                        <div class="mb-4">
-
-                            <label
-                                for="password_confirmation"
-                                class="form-label"
-                            >
-                                Konfirmasi Password
-                            </label>
-
-                            <input
-                                type="password"
-                                class="form-control"
-                                id="password_confirmation"
-                                name="password_confirmation"
-                                minlength="8"
-                                required
-                            >
-
-                        </div>
-
-                        <button
-                            type="submit"
-                            class="btn btn-shoku w-100 py-2"
-                        >
+                        <button type="submit" class="btn btn-shoku w-100 py-2 auth-btn-submit">
                             Daftar
                         </button>
-
                     </form>
 
-                    <div class="text-center mt-4">
-
-                        <span class="text-muted">
-                            Sudah punya akun?
-                        </span>
-
-                        <a
-                            href="{{ route('login') }}"
-                            class="text-decoration-none"
-                        >
+                    <div class="auth-card__footer text-center mt-4 pt-3 border-top">
+                        <span class="text-muted small">Sudah punya akun?</span>
+                        <a href="{{ route('login') }}" class="auth-link ms-1 small fw-semibold">
                             Login
-
                         </a>
-
                     </div>
-
                 </div>
-
             </div>
-
         </div>
-
     </div>
-
 </div>
 
-@endsection 
+@push('styles')
+<style>
+    .auth-wrapper {
+        min-height: calc(100vh - 140px);
+        display: flex;
+        align-items: center;
+        background: #fbfbfb;
+    }
+
+    .auth-card {
+        background: #ffffff;
+        border: 1px solid #ede8e3;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+        padding: 36px 32px;
+    }
+
+    .auth-card__header {
+        margin-bottom: 28px;
+    }
+
+    .auth-card__title {
+        font-size: 1.6rem;
+        font-weight: 700;
+        color: #212529;
+        margin-bottom: 8px;
+        letter-spacing: -0.02em;
+    }
+
+    .auth-card__subtitle {
+        font-size: 0.9rem;
+        color: #6c757d;
+        line-height: 1.45;
+        margin-bottom: 0;
+    }
+
+    .auth-label {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: #343a40;
+        margin-bottom: 6px;
+    }
+
+    .auth-input-icon {
+        background-color: #f8f9fa;
+        border-color: #dee2e6;
+        color: #6c757d;
+        padding-left: 14px;
+        padding-right: 14px;
+        border-top-left-radius: 8px;
+        border-bottom-left-radius: 8px;
+    }
+
+    .auth-input {
+        border-color: #dee2e6;
+        font-size: 0.95rem;
+        padding: 10px 14px;
+        border-top-right-radius: 8px;
+        border-bottom-right-radius: 8px;
+        transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .auth-input:focus {
+        border-color: var(--shoku-primary);
+        box-shadow: 0 0 0 0.2rem rgba(255, 82, 50, 0.2);
+    }
+
+    .auth-btn-submit {
+        border-radius: 8px;
+        font-size: 0.95rem;
+        transition: background-color 0.15s ease, border-color 0.15s ease;
+    }
+
+    .auth-link {
+        color: var(--shoku-primary-dark);
+        text-decoration: none;
+    }
+
+    .auth-link:hover {
+        text-decoration: underline;
+        color: var(--shoku-primary);
+    }
+
+    .auth-card__footer {
+        border-color: #f1f1f1 !important;
+    }
+
+    @media (max-width: 575.98px) {
+        .auth-card {
+            padding: 26px 20px;
+        }
+
+        .auth-card__title {
+            font-size: 1.4rem;
+        }
+    }
+</style>
+@endpush
+@endsection

@@ -192,10 +192,17 @@
             flex-direction: column;
         }
 
+        /* ROOT WARNA BIAR GAK USA NARO WARNA WARNA */
+        :root {
+            --shoku-primary: rgb(255, 82, 50);
+            --shoku-primary-dark: #cc3b1e;
+            --shoku-secondary: #ffffff;
+        }
+
         .mobile-toolbar,
         .public-navbar {
-            min-height: 64px;
-            background-color: #212529;
+            min-height: 72px;
+            background-color: var(--shoku-primary);
             color: #fff;
         }
 
@@ -204,13 +211,13 @@
             align-items: center;
             gap: 14px;
             padding: 0 18px;
-            box-shadow: 0 2px 12px rgba(33, 37, 41, .12);
+            box-shadow: 0 2px 12px rgba(255, 82, 50, .2);
             z-index: 1;
         }
 
         .mobile-toolbar .btn {
             color: #fff;
-            border-color: #596168;
+            border-color: rgba(255, 255, 255, .4);
         }
 
         .mobile-brand {
@@ -220,9 +227,9 @@
         }
 
         .mobile-toolbar .brand-mark {
-            width: 32px;
-            height: 32px;
-            flex-basis: 32px;
+            width: 36px;
+            height: 36px;
+            flex-basis: 36px;
         }
 
         .app-content {
@@ -240,35 +247,57 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 24px;
+            padding: 10px 28px;
+            box-shadow: 0 2px 12px rgba(255, 82, 50, .18);
         }
 
         .public-navbar .navbar-brand {
-            color: #fff;
-            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
             text-decoration: none;
         }
 
         .navbar-logo {
-            width: 112px;
-            height: 48px;
+            width: 140px;
+            height: 60px;
             object-fit: contain;
         }
 
         .shoku-orange {
-            color: rgb(255, 82, 50);
+            color: var(--shoku-primary);
         }
 
         .btn-shoku {
-            background-color: rgb(255, 82, 50);
-            border-color: rgb(255, 82, 50);
+            background-color: var(--shoku-primary);
+            border-color: var(--shoku-primary);
+            color: white;
+            font-weight: 600;
+        }
+
+        .btn-shoku:hover,
+        .btn-shoku:focus {
+            background-color: var(--shoku-primary-dark);
+            border-color: var(--shoku-primary-dark);
             color: white;
         }
 
-        .btn-shoku:hover {
-            background-color: rgb(255, 82, 50);
-            border-color: rgb(255, 82, 50);
-            color: white;
+        .public-navbar .btn-public-nav {
+            background-color: #fff;
+            color: var(--shoku-primary);
+            border: 1px solid #fff;
+            font-weight: 600;
+            padding: 8px 18px;
+            border-radius: 6px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            transition: all .2s ease;
+        }
+
+        .public-navbar .btn-public-nav:hover,
+        .public-navbar .btn-public-nav:focus {
+            background-color: rgba(255, 255, 255, .92);
+            color: var(--shoku-primary-dark);
         }
 
         @media (min-width: 992px) {
@@ -406,11 +435,11 @@
                     <img class="navbar-logo" src="{{ $logoPath }}" alt="Shoku">
                 </a>
                 @if (request()->routeIs('login'))
-                    <a href="{{ route('home') }}" class="btn btn-shoku">
+                    <a href="{{ route('home') }}" class="btn-public-nav">
                         <i class="bi bi-house-door me-1"></i> Kembali ke Home
                     </a>
                 @else
-                    <a href="{{ route('login') }}" class="btn btn-shoku">
+                    <a href="{{ route('login') }}" class="btn-public-nav">
                         <i class="bi bi-box-arrow-in-right me-1"></i> Login
                     </a>
                 @endif
