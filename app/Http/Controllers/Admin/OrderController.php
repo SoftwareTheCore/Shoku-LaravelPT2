@@ -36,7 +36,7 @@ class OrderController extends Controller
         $completedOrders = Order::with(['user', 'reservation.table', 'items'])
             ->where('status', 'completed')
             ->whereBetween('completed_at', [$start, $end])
-            ->latest('completed_at')
+            ->oldest('completed_at')
             ->paginate(10, ['*'], 'completed_page')
             ->withQueryString();
 
@@ -51,7 +51,7 @@ class OrderController extends Controller
             'reservation.table',
             'items',
         ])
-            ->latest()
+            ->oldest()
             ->paginate(15, ['*'], 'history_page')
             ->withQueryString();
 
