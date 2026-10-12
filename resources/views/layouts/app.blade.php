@@ -50,7 +50,7 @@
             --bs-offcanvas-width: 260px;
             width: 260px;
             flex: 0 0 260px;
-            background: #ffffff;
+            background: #fffaf7;
             color: #6c757d;
             border-right: 1px solid #f2e3db;
         }
@@ -59,21 +59,23 @@
             display: flex;
             flex-direction: column;
             min-height: 100vh;
-            padding: 24px 18px;
+            padding: 28px 16px 24px;
         }
 
         .sidebar-brand {
             display: flex;
             align-items: center;
             justify-content: center;
-            min-height: 72px;
-            padding: 8px 10px 28px;
+            min-height: 88px;
+            margin-bottom: 8px;
+            padding: 8px 10px 32px;
+            border-bottom: 1px solid #f2e3db;
             text-decoration: none;
         }
 
         .brand-mark {
             max-width: 100%;
-            height: 44px;
+            height: 48px;
             width: auto;
             object-fit: contain;
         }
@@ -84,8 +86,8 @@
             font-weight: 700;
             letter-spacing: 0.08em;
             text-transform: uppercase;
-            padding: 0 14px;
-            margin: 20px 0 10px;
+            padding: 0 12px;
+            margin: 22px 0 12px;
         }
 
         .app-sidebar .nav-link {
@@ -95,11 +97,15 @@
             color: #79716c;
             border-radius: 14px;
             min-height: 46px;
-            padding: 11px 16px;
+            margin: 0 4px;
+            padding: 12px 14px;
             font-size: 0.9rem;
             font-weight: 500;
-            margin-bottom: 6px;
-            transition: all 0.15s ease;
+            transition: color 0.15s ease, background-color 0.15s ease;
+        }
+
+        .app-sidebar .nav {
+            row-gap: 6px !important;
         }
 
         .app-sidebar .nav-link:hover {
@@ -127,18 +133,25 @@
         }
 
         .app-sidebar .nav-link.active {
-            background-color: #ff5232;
+            background-color: var(--shoku-primary);
             color: #ffffff;
             font-weight: 600;
+            box-shadow: 0 6px 14px rgba(255, 82, 50, 0.16);
         }
 
         .app-sidebar .nav-link.active i {
             color: #ffffff;
         }
 
+        .app-sidebar .nav-link:focus-visible,
+        .sidebar-logout-btn:focus-visible {
+            outline: 3px solid rgba(255, 82, 50, 0.28);
+            outline-offset: 2px;
+        }
+
         .sidebar-bottom {
             margin-top: auto;
-            padding-top: 24px;
+            padding: 20px 4px 0;
             border-top: 1px solid #f2e6df;
         }
 
@@ -148,7 +161,7 @@
             color: #ff5232;
             font-size: 0.9rem;
             font-weight: 600;
-            padding: 12px 16px;
+            padding: 12px 14px;
             border-radius: 12px;
             transition: background-color 0.15s ease;
         }
