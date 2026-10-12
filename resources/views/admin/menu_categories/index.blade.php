@@ -1,217 +1,247 @@
 @extends('layouts.app', ['title' => 'Kategori Menu - Shoku'])
 
 @section('content')
-
-<div class="container py-5">
+<div class="dashboard-wrapper">
 
     {{-- Header --}}
-    <div class="d-flex justify-content-between align-items-center mb-4">
-
+    <div class="d-flex justify-content-between align-items-start mb-4">
         <div>
-            <h2 class="fw-bold mb-1">
-                Kategori Menu
-            </h2>
-
-            <p class="text-muted mb-0">
-                Kelola kategori menu restoran Shoku.
-            </p>
+            <h1 class="dashboard-heading mb-2">Kategori Menu</h1>
+            <p class="dashboard-subheading mb-0">Kelola kategori menu hidangan dan minuman restoran Shoku.</p>
         </div>
 
-        <a href="{{ route('admin.menu-categories.create') }}"
-           class="btn btn-shoku">
-            <i class="bi bi-plus-lg me-1"></i>
-            Tambah Kategori
+        <a href="{{ route('admin.menu-categories.create') }}" class="btn btn-dark-pill px-4 py-2">
+            <i class="bi bi-plus-lg me-1"></i> Tambah Kategori
         </a>
-
     </div>
 
     {{-- Alert Success --}}
     @if (session('success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <i class="bi bi-check-circle me-2"></i>
-            {{ session('success') }}
-
-            <button type="button"
-                    class="btn-close"
-                    data-bs-dismiss="alert"></button>
+        <div class="alert alert-shoku-success d-flex align-items-center gap-2 mb-4" role="alert">
+            <i class="bi bi-check-circle fs-5 text-success"></i>
+            <div>{{ session('success') }}</div>
         </div>
     @endif
 
-    {{-- Table --}}
-    <div class="card border-0 shadow-sm">
-
-        <div class="card-body p-0">
-
-            <div class="table-responsive">
-
-                <table class="table table-hover align-middle mb-0">
-
-                    <thead class="table-dark">
+    {{-- Table Card --}}
+    <div class="card table-card mb-4">
+        <div class="table-responsive">
+            <table class="table mb-0 align-middle">
+                <thead>
+                    <tr>
+                        <th class="ps-4" style="width: 70px;">No</th>
+                        <th>Nama Kategori</th>
+                        <th>Deskripsi</th>
+                        <th>Dibuat</th>
+                        <th class="pe-4 text-center" style="width: 150px;">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse ($categories as $category)
                         <tr>
-                            <th width="80">No</th>
-                            <th>Nama Kategori</th>
-                            <th>Deskripsi</th>
-                            <th width="180">Dibuat</th>
-                            <th width="180">Aksi</th>
+                            <td class="ps-4 text-muted">
+                                {{ $categories->firstItem() + $loop->index }}
+                            </td>
+                            <td class="fw-semibold text-dark">
+                                {{ $category->name }}
+                            </td>
+                            <td class="text-secondary">
+                                {{ $category->description ? Str::limit($category->description, 80) : '-' }}
+                            </td>
+                            <td class="text-secondary">
+                                {{ $category->created_at->format('d M Y H:i') }}
+                            </td>
+                            <td class="pe-4 text-center">
+                                <div class="d-inline-flex gap-2">
+                                    <a href="{{ route('admin.menu-categories.edit', $category) }}" class="btn btn-sm btn-outline-secondary px-2 py-1" title="Edit">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <button
+                                        type="button"
+                                        class="btn btn-sm btn-outline-danger px-2 py-1"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#deleteCategoryModal"
+                                        data-delete-url="{{ route('admin.menu-categories.destroy', $category) }}"
+                                        data-category-name="{{ $category->name }}"
+                                        title="Hapus"
+                                    >
+                                        <i class="bi bi-trash3"></i>
+                                    </button>
+                                </div>
+                            </td>
                         </tr>
-                    </thead>
-
-                    <tbody>
-
-                        @forelse ($categories as $category)
-
-                            <tr>
-
-                                <td>
-                                    {{ $categories->firstItem() + $loop->index }}
-                                </td>
-
-                                <td>
-                                    <span class="fw-semibold">
-                                        {{ $category->name }}
-                                    </span>
-                                </td>
-
-                                <td>
-                                    @if ($category->description)
-                                        {{ Str::limit($category->description, 80) }}
-                                    @else
-                                        <span class="text-muted">
-                                            Tidak ada deskripsi
-                                        </span>
-                                    @endif
-                                </td>
-
-                                <td>
-                                    {{ $category->created_at->format('d M Y H:i') }}
-                                </td>
-
-                                <td>
-
-                                    <div class="d-flex gap-2">
-
-                                        <a href="{{ route('admin.menu-categories.edit', $category) }}"
-                                           class="btn btn-sm btn-warning">
-                                            <i class="bi bi-pencil"></i>
-                                        </a>
-
-                                        <button
-                                            type="button"
-                                            class="btn btn-sm btn-danger"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#deleteCategoryModal"
-                                            data-delete-url="{{ route('admin.menu-categories.destroy', $category) }}"
-                                            data-category-name="{{ $category->name }}"
-                                            aria-label="Hapus kategori {{ $category->name }}"
-                                            title="Hapus kategori"
-                                        >
-                                            <i class="bi bi-trash"></i>
-                                        </button>
-
-                                    </div>
-
-                                </td>
-
-                            </tr>
-
-                        @empty
-
-                            <tr>
-                                <td colspan="5"
-                                    class="text-center py-5">
-
-                                    <i class="bi bi-inbox fs-1 text-muted"></i>
-
-                                    <p class="text-muted mt-3 mb-0">
-                                        Belum ada kategori menu.
-                                    </p>
-
-                                </td>
-                            </tr>
-
-                        @endforelse
-
-                    </tbody>
-
-                </table>
-
-            </div>
-
-        </div>
-
-    </div>
-
-    <div class="modal fade" id="deleteCategoryModal" tabindex="-1" aria-labelledby="deleteCategoryModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-sm">
-            <div class="modal-content border-0 shadow">
-                <div class="modal-header border-0 pb-0">
-                    <button type="button" class="btn-close ms-auto" data-bs-dismiss="modal" aria-label="Tutup"></button>
-                </div>
-
-                <div class="modal-body px-4 pt-2 pb-4 text-center">
-                    <div class="delete-category-icon mb-3">
-                        <i class="bi bi-trash3"></i>
-                    </div>
-                    <h5 class="fw-bold mb-2" id="deleteCategoryModalLabel">Hapus kategori?</h5>
-                    <p class="text-muted mb-0">
-                        Kategori <strong class="text-dark" data-delete-category-name></strong> akan dihapus secara permanen.
-                    </p>
-                </div>
-
-                <div class="modal-footer border-0 justify-content-center gap-2 px-4 pt-0 pb-4">
-                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Batal</button>
-                    <form id="deleteCategoryForm" method="POST">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger">
-                            <i class="bi bi-trash3 me-1"></i> Hapus
-                        </button>
-                    </form>
-                </div>
-            </div>
+                    @empty
+                        <tr>
+                            <td colspan="5" class="text-center py-5">
+                                <div class="empty-folder-icon mb-3">
+                                    <i class="bi bi-folder2-open"></i>
+                                </div>
+                                <p class="text-muted mb-0 empty-text">Belum ada kategori menu.</p>
+                            </td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
         </div>
     </div>
 
-    {{-- Pagination --}}
-    <div class="mt-4">
-        {{ $categories->links() }}
-    </div>
+    @if ($categories->hasPages())
+        <div class="mt-4">{{ $categories->links('pagination::bootstrap-5') }}</div>
+    @endif
 
 </div>
 
-@push('styles')
-    <style>
-        .delete-category-icon {
-            display: grid;
-            width: 56px;
-            height: 56px;
-            margin-inline: auto;
-            place-items: center;
-            border-radius: 50%;
-            background: #fff0ed;
-            color: #c0392b;
-            font-size: 1.4rem;
-        }
+{{-- Delete Category Modal --}}
+<div class="modal fade" id="deleteCategoryModal" tabindex="-1" aria-labelledby="deleteCategoryModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content border-0 shadow rounded-4">
+            <div class="modal-header border-0 pb-0">
+                <button type="button" class="btn-close ms-auto" data-bs-dismiss="modal" aria-label="Tutup"></button>
+            </div>
+            <div class="modal-body px-4 pt-2 pb-4 text-center">
+                <div class="delete-icon-wrapper mb-3 text-danger">
+                    <i class="bi bi-trash3 fs-1"></i>
+                </div>
+                <h5 class="fw-bold mb-2" id="deleteCategoryModalLabel">Hapus kategori?</h5>
+                <p class="text-muted small mb-0">
+                    Kategori <strong class="text-dark" data-delete-category-name></strong> akan dihapus permanen.
+                </p>
+            </div>
+            <div class="modal-footer border-0 justify-content-center gap-2 px-4 pt-0 pb-4">
+                <button type="button" class="btn btn-light rounded-pill px-3" data-bs-dismiss="modal">Batal</button>
+                <form id="deleteCategoryForm" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger rounded-pill px-3">
+                        <i class="bi bi-trash3 me-1"></i> Hapus
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
-        #deleteCategoryForm {
-            margin: 0;
+@push('styles')
+<style>
+    .dashboard-wrapper {
+        max-width: 1360px;
+        margin: 0 auto;
+        padding: 44px 44px 64px 44px;
+    }
+
+    .dashboard-heading {
+        font-family: inherit;
+        font-size: 1.85rem;
+        font-weight: 700;
+        color: #7b291d;
+        letter-spacing: -0.01em;
+    }
+
+    .dashboard-subheading {
+        font-size: 0.94rem;
+        color: #8c827a;
+    }
+
+    .btn-dark-pill {
+        background-color: #1e1e24;
+        color: #ffffff;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        border: none;
+        transition: all 0.15s ease;
+    }
+
+    .btn-dark-pill:hover {
+        background-color: #33333d;
+        color: #ffffff;
+    }
+
+    .alert-shoku-success {
+        background-color: #eafaf1;
+        border: 1px solid #c7f0d8;
+        color: #27884d;
+        border-radius: 16px;
+        padding: 16px 24px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        margin-bottom: 34px;
+    }
+
+    .table-card {
+        background: #ffffff;
+        border: 1px solid #f7ece5;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+    }
+
+    .table-card table thead th {
+        background-color: #ff5232;
+        color: #ffffff;
+        font-size: 0.85rem;
+        font-weight: 600;
+        padding-top: 18px;
+        padding-bottom: 18px;
+        padding-left: 20px;
+        padding-right: 20px;
+        border: none;
+        letter-spacing: 0.02em;
+    }
+
+    .table-card table tbody td {
+        padding-top: 18px;
+        padding-bottom: 18px;
+        padding-left: 20px;
+        padding-right: 20px;
+        font-size: 0.88rem;
+        border-bottom: 1px solid #f3ece6;
+    }
+
+    .table-card table tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+    .empty-folder-icon {
+        width: 64px;
+        height: 64px;
+        background-color: #fbf1ea;
+        color: #b56247;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.8rem;
+    }
+
+    .empty-text {
+        font-size: 0.92rem;
+        color: #79716c !important;
+    }
+
+    @media (max-width: 768px) {
+        .dashboard-wrapper {
+            padding: 24px 16px;
         }
-    </style>
+    }
+</style>
 @endpush
 
 @push('scripts')
-    <script>
-        const deleteCategoryModal = document.getElementById('deleteCategoryModal');
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const deleteModal = document.getElementById('deleteCategoryModal');
+        if (deleteModal) {
+            deleteModal.addEventListener('show.bs.modal', (event) => {
+                const trigger = event.relatedTarget;
+                const deleteForm = deleteModal.querySelector('#deleteCategoryForm');
+                const categoryName = deleteModal.querySelector('[data-delete-category-name]');
 
-        deleteCategoryModal.addEventListener('show.bs.modal', (event) => {
-            const trigger = event.relatedTarget;
-            const deleteForm = deleteCategoryModal.querySelector('#deleteCategoryForm');
-            const categoryName = deleteCategoryModal.querySelector('[data-delete-category-name]');
-
-            deleteForm.action = trigger.getAttribute('data-delete-url');
-            categoryName.textContent = trigger.getAttribute('data-category-name');
-        });
-    </script>
+                deleteForm.action = trigger.getAttribute('data-delete-url');
+                categoryName.textContent = trigger.getAttribute('data-category-name');
+            });
+        }
+    });
+</script>
 @endpush
-
 @endsection

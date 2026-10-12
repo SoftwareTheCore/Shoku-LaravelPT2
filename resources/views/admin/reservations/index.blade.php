@@ -1,70 +1,80 @@
-@extends('layouts.app', ['title' => 'Histori Booking - Shoku'])
+@extends('layouts.app', ['title' => 'Histori Reservasi - Shoku'])
 
 @section('content')
-<div class="container py-5">
-    <div class="mb-4">
-        <h2 class="fw-bold mb-1">Histori Booking</h2>
-        <p class="text-muted mb-0">Seluruh booking customer dan status terkininya.</p>
+<div class="dashboard-wrapper">
+
+    {{-- Header --}}
+    <div class="dashboard-header mb-4">
+        <h1 class="dashboard-heading mb-2">Histori Reservasi</h1>
+        <p class="dashboard-subheading mb-0">Seluruh booking customer dan status terkininya.</p>
     </div>
 
+    {{-- Alerts --}}
     @if (session('success'))
-        <div class="alert alert-success alert-dismissible fade show">
-            {{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Tutup"></button>
+        <div class="alert alert-shoku-success d-flex align-items-center gap-2 mb-4" role="alert">
+            <i class="bi bi-check-circle fs-5 text-success"></i>
+            <div>{{ session('success') }}</div>
         </div>
     @endif
 
     @if (session('error'))
-        <div class="alert alert-danger alert-dismissible fade show">
-            {{ session('error') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Tutup"></button>
+        <div class="alert alert-danger d-flex align-items-center gap-2 mb-4 rounded-3" role="alert">
+            <i class="bi bi-exclamation-triangle fs-5"></i>
+            <div>{{ session('error') }}</div>
         </div>
     @endif
 
-    <div class="card border-0 shadow-sm">
+    {{-- Table Card --}}
+    <div class="card table-card">
         <div class="table-responsive">
-            <table class="table table-hover align-middle mb-0">
-                <thead class="table-dark">
+            <table class="table mb-0 align-middle">
+                <thead>
                     <tr>
-                        <th>Customer</th>
-                        <th>Meja</th>
-                        <th>Tanggal</th>
-                        <th>Jam</th>
-                        <th>Tamu</th>
-                        <th>Status Reservasi</th>
-                        <th>Status Meja</th>
-                        <th>Aksi</th>
+                        <th class="ps-4" style="width: 60px;">No</th>
+                        <th>ID Pelanggan</th>
+                        <th>ID Meja</th>
+                        <th>Tanggal Booking</th>
+                        <th>Jumlah Orang</th>
+                        <th class="text-center">Status</th>
+                        <th class="pe-4 text-center">Aksi</th>
                     </tr>
                 </thead>
                 <tbody id="reservation-rows">
-                    @forelse ($reservations as $reservation)
+                    @forelse ($reservations as $index => $reservation)
                         <tr>
-                            <td>{{ $reservation->user->name }}</td>
-                            <td>{{ $reservation->table->table_number }}</td>
-                            <td>{{ $reservation->reservation_date->format('d/m/Y') }}</td>
-                            <td>{{ substr($reservation->reservation_time, 0, 5) }}</td>
-                            <td>{{ $reservation->guest_count }} orang</td>
-                            <td>
-                                <span class="badge {{ $reservation->status === 'pending' ? 'bg-warning text-dark' : 'bg-secondary' }}">
-                                    {{ ucwords(str_replace('_', ' ', $reservation->status)) }}
-                                </span>
+                            <td class="ps-4 text-muted">
+                                {{ $reservations->firstItem() + $loop->index }}
                             </td>
-                            <td>
-                                <span class="badge {{ $reservation->table->status === 'reserved' ? 'bg-warning text-dark' : 'bg-success' }}">
-                                    {{ ucfirst($reservation->table->status) }}
-                                </span>
+                            <td class="fw-medium text-dark">
+                                {{ $reservation->user_id }}
                             </td>
-                            <td>
+                            <td class="fw-medium text-dark">
+                                {{ $reservation->table ? $reservation->table->table_number : ($reservation->restaurant_table_id ?? '-') }}
+                            </td>
+                            <td class="text-secondary">
+                                {{ $reservation->created_at ? $reservation->created_at->format('Y-m-d H:i:s') : $reservation->reservation_date->format('Y-m-d') }}
+                            </td>
+                            <td class="text-dark">
+                                {{ $reservation->guest_count }}
+                            </td>
+                            <td class="text-center">
+                                @if(strtolower($reservation->status) === 'confirmed')
+                                    <span class="status-badge status-confirmed">Confirmed</span>
+                                @elseif(strtolower($reservation->status) === 'pending')
+                                    <span class="status-badge status-pending">Pending</span>
+                                @elseif(strtolower($reservation->status) === 'cancelled')
+                                    <span class="status-badge status-cancelled">Cancelled</span>
+                                @else
+                                    <span class="status-badge status-other">{{ ucfirst($reservation->status) }}</span>
+                                @endif
+                            </td>
+                            <td class="pe-4 text-center">
                                 @if ($reservation->status === 'pending')
                                     <form action="{{ route('admin.reservations.table-status', $reservation) }}" method="POST">
                                         @csrf
                                         @method('PATCH')
-                                        <button type="submit" class="btn btn-sm {{ $reservation->table->status === 'reserved' ? 'btn-primary' : 'btn-warning' }}">
-                                            @if ($reservation->table->status === 'reserved')
-                                                <i class="bi bi-check-lg me-1"></i>Konfirmasi Reservasi
-                                            @else
-                                                <i class="bi bi-grid-3x3-gap me-1"></i>Tandai Reserved
-                                            @endif
+                                        <button type="submit" class="btn btn-sm btn-shoku py-1 px-3">
+                                            Konfirmasi
                                         </button>
                                     </form>
                                 @else
@@ -74,8 +84,11 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="8" class="text-center text-muted py-5">
-                                Belum ada reservasi.
+                            <td colspan="7" class="text-center py-5">
+                                <div class="empty-folder-icon mb-3">
+                                    <i class="bi bi-folder2-open"></i>
+                                </div>
+                                <p class="text-muted mb-0 empty-text">Belum ada data reservasi.</p>
                             </td>
                         </tr>
                     @endforelse
@@ -84,53 +97,134 @@
         </div>
     </div>
 
-    <div class="mt-3" id="reservation-pagination">
-        {{ $reservations->links() }}
-    </div>
+    @if ($reservations->hasPages())
+        <div class="mt-4" id="reservation-pagination">{{ $reservations->links('pagination::bootstrap-5') }}</div>
+    @endif
+
 </div>
-@endsection
 
-@push('scripts')
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        let isRefreshing = false;
+@push('styles')
+<style>
+    .dashboard-wrapper {
+        max-width: 1360px;
+        margin: 0 auto;
+        padding: 44px 44px 64px 44px;
+    }
 
-        window.setInterval(async () => {
-            if (isRefreshing || document.hidden) {
-                return;
-            }
+    .dashboard-heading {
+        font-family: inherit;
+        font-size: 1.85rem;
+        font-weight: 700;
+        color: #7b291d;
+        letter-spacing: -0.01em;
+    }
 
-            isRefreshing = true;
+    .dashboard-subheading {
+        font-size: 0.94rem;
+        color: #8c827a;
+    }
 
-            try {
-                const response = await fetch(window.location.href, {
-                    cache: 'no-store',
-                    headers: { 'X-Requested-With': 'XMLHttpRequest' },
-                });
+    .alert-shoku-success {
+        background-color: #eafaf1;
+        border: 1px solid #c7f0d8;
+        color: #27884d;
+        border-radius: 16px;
+        padding: 16px 24px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        margin-bottom: 34px;
+    }
 
-                if (!response.ok) {
-                    return;
-                }
+    /* Table Card */
+    .table-card {
+        background: #ffffff;
+        border: 1px solid #f7ece5;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+    }
 
-                const page = new DOMParser().parseFromString(
-                    await response.text(),
-                    'text/html'
-                );
-                const rows = page.querySelector('#reservation-rows');
-                const pagination = page.querySelector('#reservation-pagination');
+    .table-card table thead th {
+        background-color: #ff5232;
+        color: #ffffff;
+        font-size: 0.85rem;
+        font-weight: 600;
+        padding-top: 18px;
+        padding-bottom: 18px;
+        padding-left: 20px;
+        padding-right: 20px;
+        border: none;
+        letter-spacing: 0.02em;
+    }
 
-                if (rows) {
-                    document.querySelector('#reservation-rows').innerHTML = rows.innerHTML;
-                }
+    .table-card table tbody td {
+        padding-top: 18px;
+        padding-bottom: 18px;
+        padding-left: 20px;
+        padding-right: 20px;
+        font-size: 0.88rem;
+        border-bottom: 1px solid #f3ece6;
+    }
 
-                if (pagination) {
-                    document.querySelector('#reservation-pagination').innerHTML = pagination.innerHTML;
-                }
-            } catch {
-            } finally {
-                isRefreshing = false;
-            }
-        }, 5000);
-    });
-</script>
+    .table-card table tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+    /* Status Pill Badges */
+    .status-badge {
+        display: inline-block;
+        padding: 6px 18px;
+        border-radius: 30px;
+        font-size: 0.78rem;
+        font-weight: 600;
+    }
+
+    .status-confirmed {
+        background-color: #e5f8ee;
+        color: #218751;
+        border: 1px solid #c4eed6;
+    }
+
+    .status-pending {
+        background-color: #fdf5e6;
+        color: #b58330;
+        border: 1px solid #f9e7c3;
+    }
+
+    .status-cancelled {
+        background-color: #fdeeee;
+        color: #c93b3b;
+        border: 1px solid #facfcf;
+    }
+
+    .status-other {
+        background-color: #f1f1f1;
+        color: #666666;
+    }
+
+    /* Empty Folder State */
+    .empty-folder-icon {
+        width: 64px;
+        height: 64px;
+        background-color: #fbf1ea;
+        color: #b56247;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.8rem;
+    }
+
+    .empty-text {
+        font-size: 0.92rem;
+        color: #79716c !important;
+    }
+
+    @media (max-width: 768px) {
+        .dashboard-wrapper {
+            padding: 24px 16px;
+        }
+    }
+</style>
 @endpush
+@endsection

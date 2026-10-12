@@ -2,13 +2,13 @@
 
 @section('content')
 
-<div class="container py-5">
+<div class="reservation-form-page container py-5">
 
     <div class="mb-4">
 
         <a
             href="{{ route('customer.reservations.index') }}"
-            class="text-decoration-none"
+            class="reservation-back text-decoration-none"
         >
             <i class="bi bi-arrow-left"></i>
             Kembali ke Reservasi
@@ -21,14 +21,15 @@
 
         <div class="col-lg-7">
 
-            <div class="card border-0 shadow-sm">
+            <div class="card reservation-form-card border-0">
 
-                <div class="card-header bg-dark text-white py-3">
+                <div class="reservation-form-header">
 
                     <h5 class="mb-0">
                         <i class="bi bi-calendar-plus me-2"></i>
-                        Reservasi Meja
+                        Buat reservasi meja
                     </h5>
+                    <p class="mb-0 mt-2">Pilih waktu dan meja yang sesuai untuk kunjungan Anda.</p>
 
                 </div>
 
@@ -37,7 +38,7 @@
 
                     @if (session('error'))
 
-                        <div class="alert alert-danger">
+                        <div class="alert alert-danger rounded-3">
                             {{ session('error') }}
                         </div>
 
@@ -74,7 +75,7 @@
                                 <select
                                     name="restaurant_table_id"
                                     id="restaurant_table_id"
-                                    class="form-select @error('restaurant_table_id') is-invalid @enderror"
+                                    class="form-select reservation-control @error('restaurant_table_id') is-invalid @enderror"
                                     required
                                 >
 
@@ -134,7 +135,7 @@
                                     type="date"
                                     name="reservation_date"
                                     id="reservation_date"
-                                    class="form-control @error('reservation_date') is-invalid @enderror"
+                                    class="form-control reservation-control @error('reservation_date') is-invalid @enderror"
                                     value="{{ old('reservation_date') }}"
                                     min="{{ date('Y-m-d') }}"
                                     required
@@ -160,7 +161,7 @@
                                     type="time"
                                     name="reservation_time"
                                     id="reservation_time"
-                                    class="form-control @error('reservation_time') is-invalid @enderror"
+                                    class="form-control reservation-control @error('reservation_time') is-invalid @enderror"
                                     value="{{ old('reservation_time') }}"
                                     required
                                 >
@@ -185,7 +186,7 @@
                                     type="number"
                                     name="guest_count"
                                     id="guest_count"
-                                    class="form-control @error('guest_count') is-invalid @enderror"
+                                    class="form-control reservation-control @error('guest_count') is-invalid @enderror"
                                     value="{{ old('guest_count') }}"
                                     min="1"
                                     max="50"
@@ -228,7 +229,7 @@
 
                                 <textarea
                                     name="notes"
-                                    class="form-control @error('notes') is-invalid @enderror"
+                                    class="form-control reservation-control @error('notes') is-invalid @enderror"
                                     rows="4"
                                     placeholder="Contoh: ingin meja dekat jendela."
                                 >{{ old('notes') }}</textarea>
@@ -246,14 +247,14 @@
 
                                 <a
                                     href="{{ route('customer.reservations.index') }}"
-                                    class="btn btn-secondary"
+                                    class="btn btn-light reservation-cancel"
                                 >
                                     Batal
                                 </a>
 
                                 <button
                                     type="submit"
-                                    class="btn btn-shoku"
+                                    class="btn btn-reservation-primary"
                                 >
                                     <i class="bi bi-calendar-check me-1"></i>
                                     Kirim Reservasi
@@ -274,6 +275,108 @@
     </div>
 
 </div>
+
+@push('styles')
+<style>
+    .reservation-form-page {
+        max-width: 900px;
+    }
+
+    .reservation-back {
+        color: var(--shoku-primary-dark);
+        font-weight: 600;
+    }
+
+    .reservation-back:hover,
+    .reservation-back:focus-visible {
+        color: var(--shoku-primary);
+    }
+
+    .reservation-form-card {
+        overflow: hidden;
+        border-radius: 16px;
+        background: #ffffff;
+        box-shadow: 0 10px 30px rgba(123, 41, 29, 0.08);
+    }
+
+    .reservation-form-header {
+        padding: 24px 28px;
+        background: var(--shoku-primary);
+        color: #ffffff;
+    }
+
+    .reservation-form-header h5 {
+        font-size: 1.25rem;
+        font-weight: 700;
+    }
+
+    .reservation-form-header p {
+        color: rgba(255, 255, 255, 0.88);
+        font-size: 0.9rem;
+    }
+
+    .reservation-form-card .card-body {
+        padding: 28px !important;
+    }
+
+    .reservation-form-card .form-label {
+        color: #4b403b;
+        font-size: 0.88rem;
+        font-weight: 700;
+        margin-bottom: 8px;
+    }
+
+    .reservation-control {
+        min-height: 46px;
+        border: 1px solid #e6d9d1;
+        border-radius: 10px;
+        color: #3d3632;
+    }
+
+    .reservation-control:focus {
+        border-color: var(--shoku-primary);
+        box-shadow: 0 0 0 3px rgba(255, 82, 50, 0.14);
+    }
+
+    .reservation-form-card small {
+        color: #756b65 !important;
+    }
+
+    .btn-reservation-primary {
+        background: var(--shoku-primary);
+        border: 1px solid var(--shoku-primary);
+        border-radius: 10px;
+        color: #ffffff;
+        font-weight: 600;
+        padding: 10px 18px;
+    }
+
+    .btn-reservation-primary:hover,
+    .btn-reservation-primary:focus-visible {
+        background: var(--shoku-primary-dark);
+        border-color: var(--shoku-primary-dark);
+        color: #ffffff;
+    }
+
+    .reservation-cancel {
+        border-radius: 10px;
+        color: #625851;
+        font-weight: 600;
+        padding: 10px 18px;
+    }
+
+    @media (max-width: 575.98px) {
+        .reservation-form-page {
+            padding: 28px 16px !important;
+        }
+
+        .reservation-form-card .card-body,
+        .reservation-form-header {
+            padding: 22px !important;
+        }
+    }
+</style>
+@endpush
 
 
 @push('scripts')

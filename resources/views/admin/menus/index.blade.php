@@ -1,288 +1,286 @@
-@extends('layouts.app', ['title' => 'Menu - Shoku'])
+@extends('layouts.app', ['title' => 'Data Menu - Shoku'])
 
 @section('content')
-
-<div class="container py-5">
+<div class="dashboard-wrapper">
 
     {{-- Header --}}
-    <div class="d-flex justify-content-between align-items-center mb-4">
-
+    <div class="d-flex justify-content-between align-items-start mb-4">
         <div>
-            <h2 class="fw-bold mb-1">
-                Menu
-            </h2>
-
-            <p class="text-muted mb-0">
-                Kelola daftar menu makanan dan minuman Shoku.
-            </p>
+            <h1 class="dashboard-heading mb-2">Data Menu</h1>
+            <p class="dashboard-subheading mb-0">Kelola daftar menu restaurant.</p>
         </div>
 
-        <a href="{{ route('admin.menus.create') }}"
-           class="btn btn-shoku">
-            <i class="bi bi-plus-lg me-1"></i>
-            Tambah Menu
+        <a href="{{ route('admin.menus.create') }}" class="btn btn-dark-pill px-4 py-2">
+            <i class="bi bi-plus-lg me-1"></i> Tambah Menu
         </a>
-
     </div>
 
-    {{-- Success --}}
+    {{-- Success Message --}}
     @if (session('success'))
-        <div class="alert alert-success alert-dismissible fade show">
-            <i class="bi bi-check-circle me-2"></i>
-            {{ session('success') }}
-
-            <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="alert">
-            </button>
+        <div class="alert alert-shoku-success d-flex align-items-center gap-2 mb-4" role="alert">
+            <i class="bi bi-check-circle fs-5 text-success"></i>
+            <div>{{ session('success') }}</div>
         </div>
     @endif
 
-    {{-- Table --}}
-    <div class="card border-0 shadow-sm">
-
-        <div class="card-body p-0">
-
-            <div class="table-responsive">
-
-                <table class="table table-hover align-middle mb-0">
-
-                    <thead class="table-dark">
-
+    {{-- Table Card --}}
+    <div class="card table-card">
+        <div class="table-responsive">
+            <table class="table mb-0 align-middle">
+                <thead>
+                    <tr>
+                        <th class="ps-4" style="width: 60px;">No</th>
+                        <th style="width: 100px;">Foto</th>
+                        <th>Nama Menu</th>
+                        <th>Harga</th>
+                        <th>Status</th>
+                        <th class="pe-4 text-center" style="width: 140px;">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse ($menus as $menu)
                         <tr>
-                            <th width="70">No</th>
-                            <th width="100">Foto</th>
-                            <th>Menu</th>
-                            <th>Kategori</th>
-                            <th>Harga</th>
-                            <th>Stok</th>
-                            <th>Status</th>
-                            <th width="150">Aksi</th>
-                        </tr>
-
-                    </thead>
-
-                    <tbody>
-
-                        @forelse ($menus as $menu)
-
-                            <tr>
-
-                                <td>
-                                    {{ $menus->firstItem() + $loop->index }}
-                                </td>
-
-                                <td>
-
-                                    @if ($menu->image)
-
-                                        <img
-                                            src="{{ asset('storage/' . $menu->image) }}"
-                                            alt="{{ $menu->name }}"
-                                            width="70"
-                                            height="70"
-                                            class="rounded object-fit-cover"
-                                        >
-
-                                    @else
-
-                                        <div
-                                            class="bg-light rounded d-flex align-items-center justify-content-center"
-                                            style="width:70px;height:70px;"
-                                        >
-                                            <i class="bi bi-image text-muted fs-4"></i>
-                                        </div>
-
-                                    @endif
-
-                                </td>
-
-                                <td>
-
-                                    <div class="fw-semibold">
-                                        {{ $menu->name }}
+                            <td class="ps-4 text-muted">
+                                {{ $menus->firstItem() + $loop->index }}
+                            </td>
+                            <td>
+                                @if ($menu->image)
+                                    <img src="{{ asset('storage/' . $menu->image) }}" alt="{{ $menu->name }}" width="60" height="60" class="rounded-3 object-fit-cover">
+                                @else
+                                    <div class="bg-light rounded-3 d-flex align-items-center justify-content-center" style="width:60px;height:60px;">
+                                        <i class="bi bi-image text-muted fs-4"></i>
                                     </div>
-
-                                    <small class="text-muted">
-                                        {{ Str::limit($menu->description, 50) }}
-                                    </small>
-
-                                </td>
-
-                                <td>
-                                    <span class="badge text-bg-secondary">
-                                        {{ $menu->category->name }}
-                                    </span>
-                                </td>
-
-                                <td>
-                                    <span class="fw-semibold">
-                                        Rp {{ number_format($menu->price, 0, ',', '.') }}
-                                    </span>
-                                </td>
-
-                                <td>
-                                    {{ $menu->stock }}
-                                </td>
-
-                                <td>
-
-                                    @if ($menu->is_available && $menu->stock > 0)
-
-                                        <span class="badge text-bg-success">
-                                            Tersedia
-                                        </span>
-
-                                    @else
-
-                                        <span class="badge text-bg-danger">
-                                            Tidak tersedia
-                                        </span>
-
-                                    @endif
-
-                                </td>
-
-                                <td>
-
-                                    <div class="d-flex gap-2">
-
-                                        <a
-                                            href="{{ route('admin.menus.show', $menu) }}"
-                                            class="btn btn-sm btn-info text-white"
-                                            title="Detail"
-                                        >
-                                            <i class="bi bi-eye"></i>
-                                        </a>
-
-                                        <a
-                                            href="{{ route('admin.menus.edit', $menu) }}"
-                                            class="btn btn-sm btn-warning"
-                                            title="Edit"
-                                        >
-                                            <i class="bi bi-pencil"></i>
-                                        </a>
-
-                                        <button
-                                            type="button"
-                                            class="btn btn-sm btn-danger"
+                                @endif
+                            </td>
+                            <td>
+                                <div class="fw-semibold text-dark">{{ $menu->name }}</div>
+                                <small class="text-secondary">{{ $menu->category ? $menu->category->name : '' }}</small>
+                            </td>
+                            <td class="fw-semibold text-dark">
+                                Rp {{ number_format($menu->price, 0, ',', '.') }}
+                            </td>
+                            <td>
+                                @if ($menu->is_available && $menu->stock > 0)
+                                    <span class="status-badge status-confirmed">Tersedia</span>
+                                @else
+                                    <span class="status-badge status-cancelled">Habis</span>
+                                @endif
+                            </td>
+                            <td class="pe-4 text-center">
+                                <div class="d-inline-flex gap-1">
+                                    <a href="{{ route('admin.menus.edit', $menu) }}" class="btn btn-sm btn-outline-secondary" title="Edit">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <button type="button"
+                                            class="btn btn-sm btn-outline-danger"
                                             data-bs-toggle="modal"
                                             data-bs-target="#deleteMenuModal"
                                             data-delete-url="{{ route('admin.menus.destroy', $menu) }}"
                                             data-menu-name="{{ $menu->name }}"
-                                            aria-label="Hapus menu {{ $menu->name }}"
-                                            title="Hapus"
-                                        >
-                                            <i class="bi bi-trash"></i>
-                                        </button>
-
-                                    </div>
-
-                                </td>
-
-                            </tr>
-
-                        @empty
-
-                            <tr>
-
-                                <td colspan="8"
-                                    class="text-center py-5">
-
-                                    <i class="bi bi-egg-fried fs-1 text-muted"></i>
-
-                                    <p class="text-muted mt-3 mb-0">
-                                        Belum ada menu.
-                                    </p>
-
-                                </td>
-
-                            </tr>
-
-                        @endforelse
-
-                    </tbody>
-
-                </table>
-
-            </div>
-
-        </div>
-
-    </div>
-
-    <div class="modal fade" id="deleteMenuModal" tabindex="-1" aria-labelledby="deleteMenuModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-sm">
-            <div class="modal-content border-0 shadow">
-                <div class="modal-header border-0 pb-0">
-                    <button type="button" class="btn-close ms-auto" data-bs-dismiss="modal" aria-label="Tutup"></button>
-                </div>
-
-                <div class="modal-body px-4 pt-2 pb-4 text-center">
-                    <div class="delete-menu-icon mb-3">
-                        <i class="bi bi-trash3"></i>
-                    </div>
-                    <h5 class="fw-bold mb-2" id="deleteMenuModalLabel">Hapus menu?</h5>
-                    <p class="text-muted mb-0">
-                        Menu <strong class="text-dark" data-delete-menu-name></strong> akan dihapus secara permanen.
-                    </p>
-                </div>
-
-                <div class="modal-footer border-0 justify-content-center gap-2 px-4 pt-0 pb-4">
-                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Batal</button>
-                    <form id="deleteMenuForm" method="POST">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger">
-                            <i class="bi bi-trash3 me-1"></i> Hapus
-                        </button>
-                    </form>
-                </div>
-            </div>
+                                            title="Hapus">
+                                        <i class="bi bi-trash3"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="6" class="text-center py-5">
+                                <div class="empty-folder-icon mb-3">
+                                    <i class="bi bi-folder2-open"></i>
+                                </div>
+                                <p class="text-muted mb-0 empty-text">Belum ada menu.</p>
+                            </td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
         </div>
     </div>
 
-    {{-- Pagination --}}
-    <div class="mt-4">
-        {{ $menus->links() }}
-    </div>
+    @if ($menus->hasPages())
+        <div class="mt-4">{{ $menus->links('pagination::bootstrap-5') }}</div>
+    @endif
 
 </div>
 
-@push('styles')
-    <style>
-        .delete-menu-icon {
-            display: grid;
-            width: 56px;
-            height: 56px;
-            margin-inline: auto;
-            place-items: center;
-            border-radius: 50%;
-            background: #fff0ed;
-            color: #c0392b;
-            font-size: 1.4rem;
-        }
+{{-- Delete Menu Modal --}}
+<div class="modal fade" id="deleteMenuModal" tabindex="-1" aria-labelledby="deleteMenuModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content border-0 shadow rounded-4">
+            <div class="modal-header border-0 pb-0">
+                <button type="button" class="btn-close ms-auto" data-bs-dismiss="modal" aria-label="Tutup"></button>
+            </div>
+            <div class="modal-body px-4 pt-2 pb-4 text-center">
+                <div class="delete-icon-wrapper mb-3 text-danger">
+                    <i class="bi bi-trash3 fs-1"></i>
+                </div>
+                <h5 class="fw-bold mb-2" id="deleteMenuModalLabel">Hapus menu?</h5>
+                <p class="text-muted small mb-0">
+                    Menu <strong class="text-dark" data-delete-menu-name></strong> akan dihapus permanen.
+                </p>
+            </div>
+            <div class="modal-footer border-0 justify-content-center gap-2 px-4 pt-0 pb-4">
+                <button type="button" class="btn btn-light rounded-pill px-3" data-bs-dismiss="modal">Batal</button>
+                <form id="deleteMenuForm" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger rounded-pill px-3">
+                        <i class="bi bi-trash3 me-1"></i> Hapus
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
-        #deleteMenuForm {
-            margin: 0;
+@push('styles')
+<style>
+    .dashboard-wrapper {
+        max-width: 1360px;
+        margin: 0 auto;
+        padding: 44px 44px 64px 44px;
+    }
+
+    .dashboard-heading {
+        font-family: inherit;
+        font-size: 1.85rem;
+        font-weight: 700;
+        color: #7b291d;
+        letter-spacing: -0.01em;
+    }
+
+    .dashboard-subheading {
+        font-size: 0.94rem;
+        color: #8c827a;
+    }
+
+    .btn-dark-pill {
+        background-color: #1e1e24;
+        color: #ffffff;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        border: none;
+        transition: all 0.15s ease;
+    }
+
+    .btn-dark-pill:hover {
+        background-color: #33333d;
+        color: #ffffff;
+    }
+
+    .alert-shoku-success {
+        background-color: #eafaf1;
+        border: 1px solid #c7f0d8;
+        color: #27884d;
+        border-radius: 16px;
+        padding: 16px 24px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        margin-bottom: 34px;
+    }
+
+    /* Table Card */
+    .table-card {
+        background: #ffffff;
+        border: 1px solid #f7ece5;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+    }
+
+    .table-card table thead th {
+        background-color: #ff5232;
+        color: #ffffff;
+        font-size: 0.85rem;
+        font-weight: 600;
+        padding-top: 18px;
+        padding-bottom: 18px;
+        padding-left: 20px;
+        padding-right: 20px;
+        border: none;
+        letter-spacing: 0.02em;
+    }
+
+    .table-card table tbody td {
+        padding-top: 18px;
+        padding-bottom: 18px;
+        padding-left: 20px;
+        padding-right: 20px;
+        font-size: 0.88rem;
+        border-bottom: 1px solid #f3ece6;
+    }
+
+    .table-card table tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+    /* Status Pill Badges */
+    .status-badge {
+        display: inline-block;
+        padding: 6px 18px;
+        border-radius: 30px;
+        font-size: 0.78rem;
+        font-weight: 600;
+    }
+
+    .status-confirmed {
+        background-color: #e5f8ee;
+        color: #218751;
+        border: 1px solid #c4eed6;
+    }
+
+    .status-cancelled {
+        background-color: #fdeeee;
+        color: #c93b3b;
+        border: 1px solid #facfcf;
+    }
+
+    /* Empty Folder State */
+    .empty-folder-icon {
+        width: 64px;
+        height: 64px;
+        background-color: #fbf1ea;
+        color: #b56247;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.8rem;
+    }
+
+    .empty-text {
+        font-size: 0.92rem;
+        color: #79716c !important;
+    }
+
+    @media (max-width: 768px) {
+        .dashboard-wrapper {
+            padding: 24px 16px;
         }
-    </style>
+    }
+</style>
 @endpush
 
 @push('scripts')
-    <script>
-        const deleteMenuModal = document.getElementById('deleteMenuModal');
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const deleteModal = document.getElementById('deleteMenuModal');
+        if (deleteModal) {
+            deleteModal.addEventListener('show.bs.modal', function (event) {
+                const button = event.relatedTarget;
+                const deleteUrl = button.getAttribute('data-delete-url');
+                const menuName = button.getAttribute('data-menu-name');
 
-        deleteMenuModal.addEventListener('show.bs.modal', (event) => {
-            const trigger = event.relatedTarget;
-            const deleteForm = deleteMenuModal.querySelector('#deleteMenuForm');
-            const menuName = deleteMenuModal.querySelector('[data-delete-menu-name]');
+                const form = document.getElementById('deleteMenuForm');
+                const namePlaceholder = deleteModal.querySelector('[data-delete-menu-name]');
 
-            deleteForm.action = trigger.getAttribute('data-delete-url');
-            menuName.textContent = trigger.getAttribute('data-menu-name');
-        });
-    </script>
+                form.action = deleteUrl;
+                namePlaceholder.textContent = menuName;
+            });
+        }
+    });
+</script>
 @endpush
-
 @endsection

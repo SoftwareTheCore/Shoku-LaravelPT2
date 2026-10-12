@@ -1,94 +1,115 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="auth-wrapper py-5">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-12 col-md-8 col-lg-5 col-xl-4">
-                <div class="auth-card">
-                    <div class="auth-card__header text-center">
-                        <h1 class="auth-card__title">Masuk ke Shoku</h1>
-                        <p class="auth-card__subtitle">Silakan masukkan email dan password untuk melanjutkan reservasi atau mengelola pesanan.</p>
+<div class="auth-page-container">
+    <div class="auth-card-wrapper">
+        <div class="auth-card">
+            {{-- Brand Logo & Header --}}
+            <div class="auth-card__header text-center">
+                <a href="{{ route('home') }}" class="d-inline-block mb-3 text-decoration-none">
+                    <img src="{{ route('brand.logo') }}" alt="Shoku Logo" class="auth-brand-logo">
+                </a>
+                <h1 class="auth-card__title">
+                    Portal Karyawan Shoku
+                </h1>
+                <p class="auth-card__subtitle">
+                    Sistem Manajemen Karyawan Shoku
+                </p>
+            </div>
+
+            {{-- Alerts / Feedback --}}
+            @if(session('success'))
+                <div class="alert alert-success d-flex align-items-center gap-2 mb-3 py-2 px-3 small rounded-3" role="alert">
+                    <i class="bi bi-check-circle-fill flex-shrink-0"></i>
+                    <div>{{ session('success') }}</div>
+                </div>
+            @endif
+
+            @if(session('error'))
+                <div class="alert alert-danger d-flex align-items-center gap-2 mb-3 py-2 px-3 small rounded-3" role="alert">
+                    <i class="bi bi-exclamation-triangle-fill flex-shrink-0"></i>
+                    <div>{{ session('error') }}</div>
+                </div>
+            @endif
+
+            @if($errors->any())
+                <div class="alert alert-danger mb-3 py-2 px-3 small rounded-3" role="alert">
+                    <ul class="mb-0 ps-3">
+                        @foreach($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            {{-- Form Login --}}
+            <form action="{{ route('login') }}" method="POST" class="auth-form">
+                @csrf
+
+                <div class="mb-3">
+                    <label for="email" class="form-label auth-input-label">EMAIL</label>
+                    <div class="auth-field-group">
+                        <span class="auth-field-icon">
+                            <i class="bi bi-person"></i>
+                        </span>
+                        <input
+                            type="email"
+                            class="form-control auth-input-field"
+                            id="email"
+                            name="email"
+                            value="{{ old('email') }}"
+                            placeholder="cth: nama@email.com"
+                            required
+                            autofocus
+                            autocomplete="email"
+                        >
                     </div>
+                </div>
 
-                    @if(session('success'))
-                        <div class="alert alert-success d-flex align-items-center gap-2 mb-4" role="alert">
-                            <i class="bi bi-check-circle-fill flex-shrink-0"></i>
-                            <div>{{ session('success') }}</div>
-                        </div>
-                    @endif
-
-                    @if(session('error'))
-                        <div class="alert alert-danger d-flex align-items-center gap-2 mb-4" role="alert">
-                            <i class="bi bi-exclamation-triangle-fill flex-shrink-0"></i>
-                            <div>{{ session('error') }}</div>
-                        </div>
-                    @endif
-
-                    @if($errors->any())
-                        <div class="alert alert-danger mb-4" role="alert">
-                            <div class="fw-semibold mb-1">Periksa kembali data yang dimasukkan:</div>
-                            <ul class="mb-0 ps-3">
-                                @foreach($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
-
-                    <form action="{{ route('login') }}" method="POST" class="auth-form">
-                        @csrf
-
-                        <div class="mb-3">
-                            <label for="email" class="form-label auth-label">Email</label>
-                            <div class="input-group">
-                                <span class="input-group-text auth-input-icon">
-                                    <i class="bi bi-envelope"></i>
-                                </span>
-                                <input
-                                    type="email"
-                                    class="form-control auth-input"
-                                    id="email"
-                                    name="email"
-                                    value="{{ old('email') }}"
-                                    placeholder="nama@email.com"
-                                    required
-                                    autofocus
-                                    autocomplete="email"
-                                >
-                            </div>
-                        </div>
-
-                        <div class="mb-3">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <label for="password" class="form-label auth-label">Password</label>
-                            </div>
-                            <div class="input-group">
-                                <span class="input-group-text auth-input-icon">
-                                    <i class="bi bi-lock"></i>
-                                </span>
-                                <input
-                                    type="password"
-                                    class="form-control auth-input"
-                                    id="password"
-                                    name="password"
-                                    placeholder="Masukkan password"
-                                    required
-                                    autocomplete="current-password"
-                                >
-                            </div>
-                        </div>
-
-                        <button type="submit" class="btn btn-shoku w-100 py-2 auth-btn-submit">
-                            Masuk
+                <div class="mb-4">
+                    <label for="password" class="form-label auth-input-label">KATA SANDI</label>
+                    <div class="auth-field-group">
+                        <span class="auth-field-icon">
+                            <i class="bi bi-lock"></i>
+                        </span>
+                        <input
+                            type="password"
+                            class="form-control auth-input-field"
+                            id="password"
+                            name="password"
+                            placeholder="Masukkan kata sandi"
+                            required
+                            autocomplete="current-password"
+                        >
+                        <button
+                            type="button"
+                            class="auth-toggle-pwd"
+                            id="togglePassword"
+                            aria-label="Tampilkan atau sembunyikan kata sandi"
+                        >
+                            <i class="bi bi-eye" id="togglePasswordIcon"></i>
                         </button>
-                    </form>
-
-                    <div class="auth-card__footer text-center mt-4 pt-3 border-top">
-                        <a href="{{ route('register') }}" class="auth-link ms-1 small fw-semibold">
-                            Daftar sebagai Customer
-                        </a>
                     </div>
+                </div>
+
+                <button type="submit" class="btn auth-btn-cta w-100">
+                    Masuk ke Shoku <i class="bi bi-arrow-right ms-1"></i>
+                </button>
+            </form>
+
+            {{-- Footer Switch Link --}}
+            <div class="text-center mt-3 mb-4">
+                <span class="text-muted small">Daftar Sebagai Costumer</span>
+                <a href="{{ route('register') }}" class="auth-switch-link small fw-semibold ms-1">
+                    Daftar di sini
+                </a>
+            </div>
+
+            {{-- Card Sub-footer --}}
+            <div class="auth-card__footer text-center">
+                <div class="auth-version-text">Shoku Dining v1.0.3</div>
+                <div class="auth-copyright-text">
+                    &copy; {{ date('Y') }} Shoku Dining Portal &bull; <a href="{{ route('home') }}" class="text-decoration-none text-muted">Bantuan / Support</a>
                 </div>
             </div>
         </div>
@@ -97,100 +118,211 @@
 
 @push('styles')
 <style>
-    .auth-wrapper {
-        min-height: calc(100vh - 140px);
+    /* Full height orange backdrop like design */
+    .public-navbar {
+        display: none !important;
+    }
+
+    .app-footer {
+        display: none !important;
+    }
+
+    body {
+        background-color: var(--shoku-primary, #ff5232) !important;
+    }
+
+    .auth-page-container {
+        min-height: 100vh;
+        width: 100%;
+        background-color: var(--shoku-primary, #ff5232);
         display: flex;
         align-items: center;
-        background: #fbfbfb;
+        justify-content: center;
+        padding: 40px 16px;
+    }
+
+    .auth-card-wrapper {
+        width: 100%;
+        max-width: 440px;
     }
 
     .auth-card {
         background: #ffffff;
-        border: 1px solid #ede8e3;
-        border-radius: 12px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
-        padding: 36px 32px;
+        border-radius: 28px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+        padding: 44px 38px 36px 38px;
+        position: relative;
     }
 
-    .auth-card__header {
-        margin-bottom: 28px;
+    .auth-brand-logo {
+        height: 64px;
+        width: auto;
+        object-fit: contain;
     }
 
     .auth-card__title {
-        font-size: 1.6rem;
+        font-family: inherit;
+        font-size: 1.25rem;
         font-weight: 700;
-        color: #212529;
-        margin-bottom: 8px;
-        letter-spacing: -0.02em;
+        color: #7b291d;
+        margin-bottom: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+    }
+
+    .auth-kanji {
+        font-weight: 600;
+        color: #9c3324;
     }
 
     .auth-card__subtitle {
-        font-size: 0.9rem;
-        color: #6c757d;
-        line-height: 1.45;
-        margin-bottom: 0;
+        font-size: 0.82rem;
+        color: #7d726b;
+        margin-bottom: 24px;
     }
 
-    .auth-label {
-        font-size: 0.85rem;
-        font-weight: 600;
-        color: #343a40;
+    .auth-input-label {
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        color: #756f6b;
         margin-bottom: 6px;
+        display: block;
     }
 
-    .auth-input-icon {
-        background-color: #f8f9fa;
-        border-color: #dee2e6;
-        color: #6c757d;
-        padding-left: 14px;
-        padding-right: 14px;
-        border-top-left-radius: 8px;
-        border-bottom-left-radius: 8px;
-    }
-
-    .auth-input {
-        border-color: #dee2e6;
-        font-size: 0.95rem;
-        padding: 10px 14px;
-        border-top-right-radius: 8px;
-        border-bottom-right-radius: 8px;
+    /* Input Pill Group */
+    .auth-field-group {
+        position: relative;
+        display: flex;
+        align-items: center;
+        background-color: #fcf8f5;
+        border: 1px solid #ebdcd3;
+        border-radius: 12px;
         transition: border-color 0.15s ease, box-shadow 0.15s ease;
     }
 
-    .auth-input:focus {
-        border-color: var(--shoku-primary);
-        box-shadow: 0 0 0 0.2rem rgba(255, 82, 50, 0.2);
+    .auth-field-group:focus-within {
+        border-color: #ff5232;
+        box-shadow: 0 0 0 3px rgba(255, 82, 50, 0.15);
+        background-color: #ffffff;
     }
 
-    .auth-btn-submit {
-        border-radius: 8px;
+    .auth-field-icon {
+        color: #968c85;
+        padding-left: 14px;
+        padding-right: 8px;
+        font-size: 1.05rem;
+        display: flex;
+        align-items: center;
+    }
+
+    .auth-input-field {
+        border: none !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        padding: 10px 10px 10px 4px;
+        font-size: 0.88rem;
+        color: #333333;
+        width: 100%;
+    }
+
+    .auth-input-field::placeholder {
+        color: #b0a69f;
+        font-size: 0.85rem;
+    }
+
+    .auth-toggle-pwd {
+        border: none;
+        background: transparent;
+        color: #8c827b;
+        padding-right: 14px;
+        padding-left: 8px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        font-size: 1.05rem;
+    }
+
+    .auth-toggle-pwd:hover {
+        color: #555555;
+    }
+
+    /* Submit CTA Button */
+    .auth-btn-cta {
+        background-color: #ff5232;
+        border-color: #ff5232;
+        color: #ffffff;
+        font-weight: 600;
         font-size: 0.95rem;
-        transition: background-color 0.15s ease, border-color 0.15s ease;
+        padding: 12px 18px;
+        border-radius: 12px;
+        box-shadow: 0 6px 16px rgba(255, 82, 50, 0.3);
+        transition: transform 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease;
     }
 
-    .auth-link {
-        color: var(--shoku-primary-dark);
+    .auth-btn-cta:hover,
+    .auth-btn-cta:focus {
+        background-color: #e54224;
+        border-color: #e54224;
+        color: #ffffff;
+        box-shadow: 0 8px 20px rgba(255, 82, 50, 0.35);
+    }
+
+    .auth-switch-link {
+        color: #ff5232;
         text-decoration: none;
     }
 
-    .auth-link:hover {
+    .auth-switch-link:hover {
         text-decoration: underline;
-        color: var(--shoku-primary);
+        color: #cc3b1e;
     }
 
+    /* Card Footer Info */
     .auth-card__footer {
-        border-color: #f1f1f1 !important;
+        padding-top: 14px;
+        border-top: 1px solid #f4ece6;
     }
 
-    @media (max-width: 575.98px) {
-        .auth-card {
-            padding: 26px 20px;
-        }
+    .auth-version-text {
+        font-size: 0.73rem;
+        font-weight: 600;
+        color: #9c5c4e;
+        margin-bottom: 3px;
+    }
 
-        .auth-card__title {
-            font-size: 1.4rem;
+    .auth-copyright-text {
+        font-size: 0.69rem;
+        color: #9c948e;
+    }
+
+    @media (max-width: 480px) {
+        .auth-card {
+            padding: 32px 22px 24px 22px;
+            border-radius: 22px;
         }
     }
 </style>
+@endpush
+
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const toggleBtn = document.getElementById('togglePassword');
+        const passwordInput = document.getElementById('password');
+        const icon = document.getElementById('togglePasswordIcon');
+
+        if (toggleBtn && passwordInput && icon) {
+            toggleBtn.addEventListener('click', function () {
+                const isPassword = passwordInput.getAttribute('type') === 'password';
+                passwordInput.setAttribute('type', isPassword ? 'text' : 'password');
+                icon.classList.toggle('bi-eye', !isPassword);
+                icon.classList.toggle('bi-eye-slash', isPassword);
+            });
+        }
+    });
+</script>
 @endpush
 @endsection

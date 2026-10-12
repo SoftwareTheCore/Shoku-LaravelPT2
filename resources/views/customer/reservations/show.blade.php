@@ -2,13 +2,13 @@
 
 @section('content')
 
-<div class="container py-5">
+<div class="reservation-detail-page container py-5">
 
     <div class="mb-4">
 
         <a
             href="{{ route('customer.reservations.index') }}"
-            class="text-decoration-none"
+            class="reservation-back text-decoration-none"
         >
             <i class="bi bi-arrow-left"></i>
             Kembali ke Reservasi
@@ -21,13 +21,14 @@
 
         <div class="col-lg-7">
 
-            <div class="card border-0 shadow-sm">
+            <div class="card reservation-detail-card border-0">
 
-                <div class="card-header bg-dark text-white py-3">
+                <div class="reservation-detail-header">
 
                     <h5 class="mb-0">
-                        Detail Reservasi
+                        <i class="bi bi-calendar-check me-2"></i>Detail reservasi
                     </h5>
+                    <span>#RES-{{ $reservation->id }}</span>
 
                 </div>
 
@@ -36,22 +37,25 @@
 
                     <div class="text-center mb-4">
 
-                        <i class="bi bi-calendar-check fs-1 shoku-orange"></i>
+                        <div class="reservation-detail-icon">
+                            <i class="bi bi-calendar-check"></i>
+                        </div>
 
-                        <h3 class="fw-bold mt-2">
-                            {{ $reservation->table->table_number }}
+                        <h3 class="fw-bold mt-3 mb-1">
+                            Meja {{ $reservation->table->table_number }}
                         </h3>
+                        <p class="text-muted mb-0">Informasi kunjungan Anda di Shoku</p>
 
                     </div>
 
 
                     <div class="row mb-3">
 
-                        <div class="col-sm-5 text-muted">
+                        <div class="col-sm-5 reservation-detail-label">
                             Tanggal
                         </div>
 
-                        <div class="col-sm-7 fw-semibold">
+                        <div class="col-sm-7 reservation-detail-value fw-semibold">
                             {{ $reservation->reservation_date->format('d F Y') }}
                         </div>
 
@@ -59,11 +63,11 @@
 
                     <div class="row mb-3">
 
-                        <div class="col-sm-5 text-muted">
+                        <div class="col-sm-5 reservation-detail-label">
                             Jam
                         </div>
 
-                        <div class="col-sm-7">
+                        <div class="col-sm-7 reservation-detail-value">
                             {{ substr($reservation->reservation_time, 0, 5) }}
                         </div>
 
@@ -72,11 +76,11 @@
 
                     <div class="row mb-3">
 
-                        <div class="col-sm-5 text-muted">
+                        <div class="col-sm-5 reservation-detail-label">
                             Meja
                         </div>
 
-                        <div class="col-sm-7">
+                        <div class="col-sm-7 reservation-detail-value">
                             {{ $reservation->table->table_number }}
                         </div>
 
@@ -85,11 +89,11 @@
 
                     <div class="row mb-3">
 
-                        <div class="col-sm-5 text-muted">
+                        <div class="col-sm-5 reservation-detail-label">
                             Kapasitas Meja
                         </div>
 
-                        <div class="col-sm-7">
+                        <div class="col-sm-7 reservation-detail-value">
                             {{ $reservation->table->capacity }} orang
                         </div>
 
@@ -98,11 +102,11 @@
 
                     <div class="row mb-3">
 
-                        <div class="col-sm-5 text-muted">
+                        <div class="col-sm-5 reservation-detail-label">
                             Jumlah Tamu
                         </div>
 
-                        <div class="col-sm-7">
+                        <div class="col-sm-7 reservation-detail-value">
                             {{ $reservation->guest_count }} orang
                         </div>
 
@@ -112,7 +116,7 @@
                         <div class="text-center mt-4">
                             <a
                                 href="{{ route('customer.orders.create', ['reservation' => $reservation->id]) }}"
-                                class="btn btn-shoku"
+                                class="btn btn-reservation-primary"
                             >
                                 <i class="bi bi-bag-plus me-1"></i>Pesan untuk Reservasi Ini
                             </a>
@@ -122,45 +126,45 @@
 
                     <div class="row mb-3">
 
-                        <div class="col-sm-5 text-muted">
+                        <div class="col-sm-5 reservation-detail-label">
                             Status
                         </div>
 
-                        <div class="col-sm-7">
+                        <div class="col-sm-7 reservation-detail-value">
 
                             @if ($reservation->status === 'pending')
 
-                                <span class="badge bg-warning text-dark">
+                                <span class="reservation-status status-pending">
                                     Pending
                                 </span>
 
                             @elseif ($reservation->status === 'confirmed')
 
-                                <span class="badge bg-primary">
+                                <span class="reservation-status status-confirmed">
                                     Reserved
                                 </span>
 
                             @elseif ($reservation->status === 'checked_in')
 
-                                <span class="badge bg-info text-dark">
+                                <span class="reservation-status status-info">
                                     Checked In
                                 </span>
 
                             @elseif ($reservation->status === 'completed')
 
-                                <span class="badge bg-success">
+                                <span class="reservation-status status-success">
                                     Completed
                                 </span>
 
                             @elseif ($reservation->status === 'cancelled')
 
-                                <span class="badge bg-danger">
+                                <span class="reservation-status status-danger">
                                     Cancelled
                                 </span>
 
                             @elseif ($reservation->status === 'no_show')
 
-                                <span class="badge bg-secondary">
+                                <span class="reservation-status status-muted">
                                     No Show
                                 </span>
 
@@ -175,11 +179,11 @@
 
                         <div class="row mb-4">
 
-                            <div class="col-sm-5 text-muted">
+                            <div class="col-sm-5 reservation-detail-label">
                                 Catatan
                             </div>
 
-                            <div class="col-sm-7">
+                            <div class="col-sm-7 reservation-detail-value">
                                 {{ $reservation->notes }}
                             </div>
 
@@ -206,7 +210,7 @@
 
                                 <button
                                     type="submit"
-                                    class="btn btn-danger"
+                                    class="btn btn-outline-danger reservation-cancel"
                                 >
                                     <i class="bi bi-x-circle me-1"></i>
                                     Batalkan Reservasi
@@ -227,5 +231,134 @@
     </div>
 
 </div>
+
+@push('styles')
+<style>
+    .reservation-detail-page {
+        max-width: 900px;
+    }
+
+    .reservation-back {
+        color: var(--shoku-primary-dark);
+        font-weight: 600;
+    }
+
+    .reservation-back:hover,
+    .reservation-back:focus-visible {
+        color: var(--shoku-primary);
+    }
+
+    .reservation-detail-card {
+        overflow: hidden;
+        border-radius: 16px;
+        background: #ffffff;
+        box-shadow: 0 10px 30px rgba(123, 41, 29, 0.08);
+    }
+
+    .reservation-detail-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 22px 28px;
+        background: var(--shoku-primary);
+        color: #ffffff;
+    }
+
+    .reservation-detail-header h5 {
+        font-size: 1.2rem;
+        font-weight: 700;
+    }
+
+    .reservation-detail-header span {
+        color: rgba(255, 255, 255, 0.86);
+        font-size: 0.85rem;
+    }
+
+    .reservation-detail-card .card-body {
+        padding: 30px !important;
+    }
+
+    .reservation-detail-icon {
+        width: 58px;
+        height: 58px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: #fff1ed;
+        color: var(--shoku-primary);
+        font-size: 1.7rem;
+    }
+
+    .reservation-detail-label,
+    .reservation-detail-value {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid #f1e8e3;
+    }
+
+    .reservation-detail-label {
+        color: #81766f;
+    }
+
+    .reservation-detail-value {
+        color: #3d3632;
+    }
+
+    .reservation-status {
+        display: inline-block;
+        padding: 6px 12px;
+        border-radius: 999px;
+        font-size: 0.78rem;
+        font-weight: 700;
+    }
+
+    .status-pending { background: #fff5dd; color: #976b17; }
+    .status-confirmed { background: #eaf8ef; color: #237747; }
+    .status-info { background: #e8f5fb; color: #1d6b87; }
+    .status-success { background: #eaf8ef; color: #237747; }
+    .status-danger { background: #fdeceb; color: #ae3932; }
+    .status-muted { background: #f0efee; color: #6d6661; }
+
+    .btn-reservation-primary {
+        background: var(--shoku-primary);
+        border: 1px solid var(--shoku-primary);
+        border-radius: 10px;
+        color: #ffffff;
+        font-weight: 600;
+        padding: 10px 18px;
+    }
+
+    .btn-reservation-primary:hover,
+    .btn-reservation-primary:focus-visible {
+        background: var(--shoku-primary-dark);
+        border-color: var(--shoku-primary-dark);
+        color: #ffffff;
+    }
+
+    .reservation-cancel {
+        border-radius: 10px;
+        font-weight: 600;
+        padding: 10px 18px;
+    }
+
+    @media (max-width: 575.98px) {
+        .reservation-detail-page {
+            padding: 28px 16px !important;
+        }
+
+        .reservation-detail-header,
+        .reservation-detail-card .card-body {
+            padding: 22px !important;
+        }
+
+        .reservation-detail-header {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+    }
+</style>
+@endpush
 
 @endsection
