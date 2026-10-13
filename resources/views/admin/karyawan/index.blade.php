@@ -65,6 +65,20 @@
                             </td>
                             <td class="pe-4 text-center">
                                 <div class="d-inline-flex gap-1">
+                                    <form action="{{ route('admin.karyawan.status', $karyawan) }}" method="POST">
+                                        @csrf
+                                        @method('PATCH')
+                                        <input type="hidden" name="is_active" value="{{ $karyawan->is_active ? 0 : 1 }}">
+                                        @if ($karyawan->is_active)
+                                            <button type="submit" class="btn btn-sm btn-outline-danger">
+                                                <i class="bi bi-person-x me-1" aria-hidden="true"></i>Nonaktifkan
+                                            </button>
+                                        @else
+                                            <button type="submit" class="btn btn-sm btn-outline-success">
+                                                <i class="bi bi-person-check me-1" aria-hidden="true"></i>Aktifkan
+                                            </button>
+                                        @endif
+                                    </form>
                                     <a href="{{ route('admin.karyawan.edit', $karyawan) }}" class="btn btn-sm btn-outline-secondary" title="Edit">
                                         <i class="bi bi-pencil"></i>
                                     </a>
