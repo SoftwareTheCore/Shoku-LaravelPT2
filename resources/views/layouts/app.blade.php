@@ -391,6 +391,9 @@
                             <a class="nav-link {{ request()->routeIs('admin.menus.*') ? 'active' : '' }}" href="{{ route('admin.menus.index') }}">
                                 <i class="bi bi-book"></i><span class="sidebar-link-label">Menu</span>
                             </a>
+                            <a class="nav-link {{ request()->routeIs('admin.meja.*') ? 'active' : '' }}" href="{{ route('admin.meja.index') }}">
+                                <i class="bi bi-grid-3x3-gap"></i><span class="sidebar-link-label">Meja</span>
+                            </a>
                             
 
                             <div class="sidebar-section-label mt-3">RECORDS</div>
