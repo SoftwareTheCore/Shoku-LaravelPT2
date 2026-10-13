@@ -385,9 +385,13 @@
                             <a class="nav-link {{ request()->routeIs('admin.karyawan.*') ? 'active' : '' }}" href="{{ route('admin.karyawan.index') }}">
                                 <i class="bi bi-people"></i><span class="sidebar-link-label">Karyawan</span>
                             </a>
+                            <a class="nav-link {{ request()->routeIs('admin.menu-categories.*') ? 'active' : '' }}" href="{{ route('admin.menu-categories.index') }}">
+                                <i class="bi bi-book"></i><span class="sidebar-link-label">Kategori Menu</span>
+                            </a>
                             <a class="nav-link {{ request()->routeIs('admin.menus.*') ? 'active' : '' }}" href="{{ route('admin.menus.index') }}">
                                 <i class="bi bi-book"></i><span class="sidebar-link-label">Menu</span>
                             </a>
+                            
 
                             <div class="sidebar-section-label mt-3">RECORDS</div>
                             <a class="nav-link {{ request()->routeIs('admin.orders.*') && request('tab') !== 'pemasukan' ? 'active' : '' }}" href="{{ route('admin.orders.index') }}">
