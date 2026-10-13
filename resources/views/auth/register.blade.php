@@ -71,7 +71,7 @@
                     </div>
                 </div>
 
-                <div class="mb-4">
+                <div class="mb-3">
                     <label for="password" class="form-label auth-input-label">KATA SANDI</label>
                     <div class="auth-field-group">
                         <span class="auth-field-icon">
@@ -94,6 +94,33 @@
                             aria-label="Tampilkan atau sembunyikan kata sandi"
                         >
                             <i class="bi bi-eye" id="togglePasswordIcon"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label for="password_confirmation" class="form-label auth-input-label">KONFIRMASI KATA SANDI</label>
+                    <div class="auth-field-group">
+                        <span class="auth-field-icon">
+                            <i class="bi bi-lock"></i>
+                        </span>
+                        <input
+                            type="password"
+                            class="form-control auth-input-field"
+                            id="password_confirmation"
+                            name="password_confirmation"
+                            minlength="8"
+                            placeholder="Ulangi kata sandi"
+                            required
+                            autocomplete="new-password"
+                        >
+                        <button
+                            type="button"
+                            class="auth-toggle-pwd"
+                            id="togglePasswordConfirmation"
+                            aria-label="Tampilkan atau sembunyikan konfirmasi kata sandi"
+                        >
+                            <i class="bi bi-eye" id="togglePasswordConfirmationIcon"></i>
                         </button>
                     </div>
                 </div>
@@ -319,6 +346,9 @@
         const toggleBtn = document.getElementById('togglePassword');
         const passwordInput = document.getElementById('password');
         const icon = document.getElementById('togglePasswordIcon');
+        const toggleConfirmationBtn = document.getElementById('togglePasswordConfirmation');
+        const confirmationInput = document.getElementById('password_confirmation');
+        const confirmationIcon = document.getElementById('togglePasswordConfirmationIcon');
 
         if (toggleBtn && passwordInput && icon) {
             toggleBtn.addEventListener('click', function () {
@@ -326,6 +356,15 @@
                 passwordInput.setAttribute('type', isPassword ? 'text' : 'password');
                 icon.classList.toggle('bi-eye', !isPassword);
                 icon.classList.toggle('bi-eye-slash', isPassword);
+            });
+        }
+
+        if (toggleConfirmationBtn && confirmationInput && confirmationIcon) {
+            toggleConfirmationBtn.addEventListener('click', function () {
+                const isPassword = confirmationInput.getAttribute('type') === 'password';
+                confirmationInput.setAttribute('type', isPassword ? 'text' : 'password');
+                confirmationIcon.classList.toggle('bi-eye', !isPassword);
+                confirmationIcon.classList.toggle('bi-eye-slash', isPassword);
             });
         }
     });
