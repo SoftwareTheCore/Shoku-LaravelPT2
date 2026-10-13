@@ -138,10 +138,6 @@ class KaryawanController extends Controller
                 'min:8',
                 'confirmed',
             ],
-            'is_active' => [
-                'required',
-                'boolean',
-            ],
         ], [
             'name.required' => 'Nama karyawan wajib diisi.',
             'name.max' => 'Nama karyawan maksimal 100 karakter.',
@@ -154,7 +150,6 @@ class KaryawanController extends Controller
 
         $karyawan->name = $validated['name'];
         $karyawan->email = $validated['email'];
-        $karyawan->is_active = $validated['is_active'];
 
         if (!empty($validated['password'])) {
             $karyawan->password = Hash::make($validated['password']);
