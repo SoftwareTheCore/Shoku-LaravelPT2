@@ -201,7 +201,7 @@
                             >
 
                             <div class="form-text">
-                                Format JPG, JPEG, PNG, WEBP. Maksimal 2 MB.
+                                Format JPG, JPEG, PNG. Maksimal 2 MB.
                             </div>
 
                             @error('image')

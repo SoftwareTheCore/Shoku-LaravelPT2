@@ -1,11 +1,11 @@
-@extends('layouts.app', ['title' => 'Histori Reservasi - Shoku'])
+@extends('layouts.app', ['title' => 'Laporan Reservasi - Shoku'])
 
 @section('content')
 <div class="dashboard-wrapper">
 
     {{-- Header --}}
     <div class="dashboard-header mb-4">
-        <h1 class="dashboard-heading mb-2">Histori Reservasi</h1>
+        <h1 class="dashboard-heading mb-2">Laporan Reservasi</h1>
         <p class="dashboard-subheading mb-0">Seluruh booking customer dan status terkininya.</p>
     </div>
 

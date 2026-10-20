@@ -53,9 +53,15 @@
                                         <div class="menu-item-price">
                                             Rp {{ number_format($menu->price, 0, ',', '.') }}
                                         </div>
-                                        <a href="{{ route('customer.menu.show', $menu) }}" class="btn btn-sm btn-outline-secondary px-3 py-1 rounded-pill">
-                                            Detail Menu
-                                        </a>
+                                        @if ($menu->is_available && $menu->stock > 0)
+                                            <a href="{{ route('customer.menu.show', $menu) }}" class="btn btn-sm btn-outline-secondary px-3 py-1 rounded-pill">
+                                                Detail Menu
+                                            </a>
+                                        @else
+                                            <span class="btn btn-sm btn-outline-secondary px-3 py-1 rounded-pill disabled" aria-disabled="true">
+                                                Tidak tersedia
+                                            </span>
+                                        @endif
                                     </div>
                                 </div>
                             </div>

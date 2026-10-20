@@ -394,17 +394,17 @@
                             <a class="nav-link {{ request()->routeIs('admin.meja.*') ? 'active' : '' }}" href="{{ route('admin.meja.index') }}">
                                 <i class="bi bi-grid-3x3-gap"></i><span class="sidebar-link-label">Meja</span>
                             </a>
-                            
+
 
                             <div class="sidebar-section-label mt-3">RECORDS</div>
                             <a class="nav-link {{ request()->routeIs('admin.orders.*') && request('tab') !== 'pemasukan' ? 'active' : '' }}" href="{{ route('admin.orders.index') }}">
-                                <i class="bi bi-list-task"></i><span class="sidebar-link-label">Histori Pesanan</span>
+                                <i class="bi bi-list-task"></i><span class="sidebar-link-label">Laporan Pesanan</span>
                             </a>
                             <a class="nav-link {{ request()->routeIs('admin.reservations.*') ? 'active' : '' }}" href="{{ route('admin.reservations.index') }}">
-                                <i class="bi bi-calendar4"></i><span class="sidebar-link-label">Histori Reservasi</span>
+                                <i class="bi bi-calendar4"></i><span class="sidebar-link-label">Laporan Reservasi</span>
                             </a>
                             <a class="nav-link {{ request('tab') === 'pemasukan' ? 'active' : '' }}" href="{{ route('admin.orders.index', ['tab' => 'pemasukan']) }}">
-                                <i class="bi bi-graph-up-arrow"></i><span class="sidebar-link-label">Histori Pemasukan</span>
+                                <i class="bi bi-graph-up-arrow"></i><span class="sidebar-link-label">Laporan Pemasukan</span>
                             </a>
                         @elseif (auth()->user()->role === 'karyawan')
                             <a class="nav-link {{ request()->routeIs('karyawan.dashboard') ? 'active' : '' }}" href="{{ route('karyawan.dashboard') }}">

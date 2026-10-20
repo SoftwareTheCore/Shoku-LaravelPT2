@@ -1,4 +1,4 @@
-@extends('layouts.app', ['title' => 'Histori Pesanan & Pemasukan - Shoku'])
+@extends('layouts.app', ['title' => 'Laporan Pesanan & Pemasukan - Shoku'])
 
 @php
     $isPemasukanTab = request()->routeIs('admin.orders.pemasukan') || request()->get('tab') === 'pemasukan';
@@ -27,7 +27,7 @@
     @endif
 
     @if ($isPemasukanTab)
-        {{-- TAB: Histori Pemasukan --}}
+        {{-- TAB: Laporan Pemasukan --}}
         <div class="mb-4">
             <h1 class="dashboard-heading mb-3">Pemasukan</h1>
         </div>
@@ -68,9 +68,9 @@
         </div>
 
     @else
-        {{-- TAB: Histori Pesanan --}}
+        {{-- TAB: Laporan Pesanan --}}
         <div class="mb-4">
-            <h1 class="dashboard-heading mb-1">Histori Pesanan</h1>
+            <h1 class="dashboard-heading mb-1">Laporan Pesanan</h1>
         </div>
 
         <div class="card table-card">

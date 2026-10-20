@@ -12,9 +12,7 @@ class MenuController extends Controller
     {
         $categories = MenuCategory::with([
             'menus' => function ($query) {
-                $query->where('is_available', true)
-                    ->where('stock', '>', 0)
-                    ->latest();
+                $query->latest();
             }
         ])->get();
 

@@ -10,10 +10,10 @@
                     <img src="{{ route('brand.logo') }}" alt="Shoku Logo" class="auth-brand-logo">
                 </a>
                 <h1 class="auth-card__title">
-                    Portal Karyawan Shoku
+                    Portal Login Shoku
                 </h1>
                 <p class="auth-card__subtitle">
-                    Sistem Manajemen Karyawan Shoku
+                    Sistem Manajemen Login Shoku
                 </p>
             </div>
 
