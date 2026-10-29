@@ -2,6 +2,23 @@
 
 @section('content')
 <div class="auth-page-container">
+    <div class="auth-visual-panel">
+        <img
+            src="https://images.unsplash.com/photo-1579871494447-9811cf80d66c?auto=format&fit=crop&w=1400&q=85"
+            alt="Sajian sushi khas Jepang"
+            class="auth-visual-image"
+        >
+        <div class="auth-visual-overlay"></div>
+        <a href="{{ route('home') }}" class="auth-back-link">
+            <i class="bi bi-arrow-left"></i>
+            Kembali ke beranda
+        </a>
+        {{-- <div class="auth-visual-copy">
+            <span class="auth-visual-kicker">Shoku Japanese Resto</span>
+            <h2>Selamat datang kembali.</h2>
+            <p>Kelola pengalaman bersantap dan reservasi Anda dalam satu ruang.</p>
+        </div> --}}
+    </div>
     <div class="auth-card-wrapper">
         <div class="auth-card">
             {{-- Brand Logo & Header --}}
@@ -116,196 +133,7 @@
     </div>
 </div>
 
-@push('styles')
-<style>
-    /* Full height orange backdrop like design */
-    .public-navbar {
-        display: none !important;
-    }
 
-    .app-footer {
-        display: none !important;
-    }
-
-    body {
-        background-color: var(--shoku-primary, #ff5232) !important;
-    }
-
-    .auth-page-container {
-        min-height: 100vh;
-        width: 100%;
-        background-color: var(--shoku-primary, #ff5232);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 40px 16px;
-    }
-
-    .auth-card-wrapper {
-        width: 100%;
-        max-width: 440px;
-    }
-
-    .auth-card {
-        background: #ffffff;
-        border-radius: 28px;
-        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
-        padding: 44px 38px 36px 38px;
-        position: relative;
-    }
-
-    .auth-brand-logo {
-        height: 64px;
-        width: auto;
-        object-fit: contain;
-    }
-
-    .auth-card__title {
-        font-family: inherit;
-        font-size: 1.25rem;
-        font-weight: 700;
-        color: #7b291d;
-        margin-bottom: 4px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 6px;
-    }
-
-    .auth-kanji {
-        font-weight: 600;
-        color: #9c3324;
-    }
-
-    .auth-card__subtitle {
-        font-size: 0.82rem;
-        color: #7d726b;
-        margin-bottom: 24px;
-    }
-
-    .auth-input-label {
-        font-size: 0.72rem;
-        font-weight: 700;
-        letter-spacing: 0.05em;
-        color: #756f6b;
-        margin-bottom: 6px;
-        display: block;
-    }
-
-    /* Input Pill Group */
-    .auth-field-group {
-        position: relative;
-        display: flex;
-        align-items: center;
-        background-color: #fcf8f5;
-        border: 1px solid #ebdcd3;
-        border-radius: 12px;
-        transition: border-color 0.15s ease, box-shadow 0.15s ease;
-    }
-
-    .auth-field-group:focus-within {
-        border-color: #ff5232;
-        box-shadow: 0 0 0 3px rgba(255, 82, 50, 0.15);
-        background-color: #ffffff;
-    }
-
-    .auth-field-icon {
-        color: #968c85;
-        padding-left: 14px;
-        padding-right: 8px;
-        font-size: 1.05rem;
-        display: flex;
-        align-items: center;
-    }
-
-    .auth-input-field {
-        border: none !important;
-        background: transparent !important;
-        box-shadow: none !important;
-        padding: 10px 10px 10px 4px;
-        font-size: 0.88rem;
-        color: #333333;
-        width: 100%;
-    }
-
-    .auth-input-field::placeholder {
-        color: #b0a69f;
-        font-size: 0.85rem;
-    }
-
-    .auth-toggle-pwd {
-        border: none;
-        background: transparent;
-        color: #8c827b;
-        padding-right: 14px;
-        padding-left: 8px;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        font-size: 1.05rem;
-    }
-
-    .auth-toggle-pwd:hover {
-        color: #555555;
-    }
-
-    /* Submit CTA Button */
-    .auth-btn-cta {
-        background-color: #ff5232;
-        border-color: #ff5232;
-        color: #ffffff;
-        font-weight: 600;
-        font-size: 0.95rem;
-        padding: 12px 18px;
-        border-radius: 12px;
-        box-shadow: 0 6px 16px rgba(255, 82, 50, 0.3);
-        transition: transform 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease;
-    }
-
-    .auth-btn-cta:hover,
-    .auth-btn-cta:focus {
-        background-color: #e54224;
-        border-color: #e54224;
-        color: #ffffff;
-        box-shadow: 0 8px 20px rgba(255, 82, 50, 0.35);
-    }
-
-    .auth-switch-link {
-        color: #ff5232;
-        text-decoration: none;
-    }
-
-    .auth-switch-link:hover {
-        text-decoration: underline;
-        color: #cc3b1e;
-    }
-
-    /* Card Footer Info */
-    .auth-card__footer {
-        padding-top: 14px;
-        border-top: 1px solid #f4ece6;
-    }
-
-    .auth-version-text {
-        font-size: 0.73rem;
-        font-weight: 600;
-        color: #9c5c4e;
-        margin-bottom: 3px;
-    }
-
-    .auth-copyright-text {
-        font-size: 0.69rem;
-        color: #9c948e;
-    }
-
-    @media (max-width: 480px) {
-        .auth-card {
-            padding: 32px 22px 24px 22px;
-            border-radius: 22px;
-        }
-    }
-</style>
-@endpush
 
 @push('scripts')
 <script>

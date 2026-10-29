@@ -91,7 +91,7 @@
                                             {{ old('restaurant_table_id') == $table->id ? 'selected' : '' }}
                                         >
                                             {{ $table->table_number }}
-                                            — {{ $table->capacity }} orang
+                                            · {{ $table->capacity }} orang
                                         </option>
 
                                     @endforeach
@@ -276,107 +276,7 @@
 
 </div>
 
-@push('styles')
-<style>
-    .reservation-form-page {
-        max-width: 900px;
-    }
 
-    .reservation-back {
-        color: var(--shoku-primary-dark);
-        font-weight: 600;
-    }
-
-    .reservation-back:hover,
-    .reservation-back:focus-visible {
-        color: var(--shoku-primary);
-    }
-
-    .reservation-form-card {
-        overflow: hidden;
-        border-radius: 16px;
-        background: #ffffff;
-        box-shadow: 0 10px 30px rgba(123, 41, 29, 0.08);
-    }
-
-    .reservation-form-header {
-        padding: 24px 28px;
-        background: var(--shoku-primary);
-        color: #ffffff;
-    }
-
-    .reservation-form-header h5 {
-        font-size: 1.25rem;
-        font-weight: 700;
-    }
-
-    .reservation-form-header p {
-        color: rgba(255, 255, 255, 0.88);
-        font-size: 0.9rem;
-    }
-
-    .reservation-form-card .card-body {
-        padding: 28px !important;
-    }
-
-    .reservation-form-card .form-label {
-        color: #4b403b;
-        font-size: 0.88rem;
-        font-weight: 700;
-        margin-bottom: 8px;
-    }
-
-    .reservation-control {
-        min-height: 46px;
-        border: 1px solid #e6d9d1;
-        border-radius: 10px;
-        color: #3d3632;
-    }
-
-    .reservation-control:focus {
-        border-color: var(--shoku-primary);
-        box-shadow: 0 0 0 3px rgba(255, 82, 50, 0.14);
-    }
-
-    .reservation-form-card small {
-        color: #756b65 !important;
-    }
-
-    .btn-reservation-primary {
-        background: var(--shoku-primary);
-        border: 1px solid var(--shoku-primary);
-        border-radius: 10px;
-        color: #ffffff;
-        font-weight: 600;
-        padding: 10px 18px;
-    }
-
-    .btn-reservation-primary:hover,
-    .btn-reservation-primary:focus-visible {
-        background: var(--shoku-primary-dark);
-        border-color: var(--shoku-primary-dark);
-        color: #ffffff;
-    }
-
-    .reservation-cancel {
-        border-radius: 10px;
-        color: #625851;
-        font-weight: 600;
-        padding: 10px 18px;
-    }
-
-    @media (max-width: 575.98px) {
-        .reservation-form-page {
-            padding: 28px 16px !important;
-        }
-
-        .reservation-form-card .card-body,
-        .reservation-form-header {
-            padding: 22px !important;
-        }
-    }
-</style>
-@endpush
 
 
 @push('scripts')
@@ -487,7 +387,7 @@
             );
             const unavailableTableLabels = tableOptions
                 .filter(({ option }) => unavailableTableIds.has(option.value))
-                .map(({ label }) => label.split(' — ')[0]);
+                .map(({ label }) => label.split(' â€” ')[0]);
 
             tableOptions.forEach(({ option, label }) => {
                 const isBooked = unavailableTableIds.has(option.value);
