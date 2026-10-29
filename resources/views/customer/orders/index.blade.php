@@ -61,7 +61,7 @@
                             </td>
                             <td>
                                 @if(strtolower($order->status) === 'completed')
-                                    <span class="status-badge status-confirmed">Selesai</span>
+                                    <span class="status-badge status-confirmed">Diterima</span>
                                 @elseif(strtolower($order->status) === 'pending')
                                     <span class="status-badge status-pending">Pending</span>
                                 @elseif(strtolower($order->status) === 'cancelled')

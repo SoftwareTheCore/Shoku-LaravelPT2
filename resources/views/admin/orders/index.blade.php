@@ -84,6 +84,7 @@
                             <th>Tanggal</th>
                             <th>Status</th>
                             <th class="pe-4 text-end">Total</th>
+                            <th class="pe-4 text-end">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -104,6 +105,8 @@
                                 <td>
                                     @if(strtolower($order->status) === 'completed')
                                         <span class="status-badge status-confirmed">Completed</span>
+                                    @elseif(strtolower($order->status) === 'preparing')
+                                        <span class="status-badge status-other">Diproses</span>
                                     @elseif(strtolower($order->status) === 'pending')
                                         <span class="status-badge status-pending">Pending</span>
                                     @elseif(strtolower($order->status) === 'cancelled')
@@ -115,10 +118,25 @@
                                 <td class="pe-4 text-end fw-semibold text-dark">
                                     Rp {{ number_format($order->total_amount, 0, ',', '.') }}
                                 </td>
+                                <td class="pe-4 text-end">
+                                    @if (in_array($order->status, ['pending', 'preparing'], true))
+                                        <form action="{{ route('admin.orders.complete', $order) }}" method="POST">
+                                            @csrf
+                                            @method('PATCH')
+                                            <button type="submit" class="btn btn-confirm-order btn-sm">
+                                                Konfirmasi diterima
+                                            </button>
+                                        </form>
+                                    @elseif ($order->status === 'completed')
+                                        <span class="text-success small fw-semibold">Sudah diterima</span>
+                                    @else
+                                        <span class="text-muted small">-</span>
+                                    @endif
+                                </td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="6" class="text-center py-5">
+                                <td colspan="7" class="text-center py-5">
                                     <div class="empty-folder-icon mb-3">
                                         <i class="bi bi-folder2-open"></i>
                                     </div>
@@ -229,6 +247,20 @@
 
     .table-card table tbody tr:last-child td {
         border-bottom: none;
+    }
+
+    .btn-confirm-order {
+        background-color: #ff5232;
+        color: #ffffff;
+        border: 0;
+        border-radius: 8px;
+        font-weight: 600;
+    }
+
+    .btn-confirm-order:hover,
+    .btn-confirm-order:focus {
+        background-color: #d94329;
+        color: #ffffff;
     }
 
     /* Status Pill Badges */
