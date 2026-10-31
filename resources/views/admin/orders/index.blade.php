@@ -4,6 +4,16 @@
     $isPemasukanTab = request()->routeIs('admin.orders.pemasukan') || request()->get('tab') === 'pemasukan';
 @endphp
 
+@section('breadcrumb')
+    <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
+    <li class="breadcrumb-item"><a href="{{ route('admin.orders.index') }}">Laporan Pesanan</a></li>
+    @if ($isPemasukanTab)
+        <li class="breadcrumb-item active" aria-current="page">Pemasukan</li>
+    @else
+        <li class="breadcrumb-item active" aria-current="page">Daftar Pesanan</li>
+    @endif
+@endsection
+
 @section('content')
 <div class="dashboard-wrapper">
 
@@ -123,7 +133,7 @@
                                         <form action="{{ route('admin.orders.complete', $order) }}" method="POST">
                                             @csrf
                                             @method('PATCH')
-                                            <button type="submit" class="btn btn-confirm-order btn-sm">
+                                            <button type="submit" class="btn btn-confirm-order btn-sm" data-confirm="Apakah Anda yakin ingin mengonfirmasi bahwa pesanan ini telah diterima?">
                                                 Konfirmasi diterima
                                             </button>
                                         </form>

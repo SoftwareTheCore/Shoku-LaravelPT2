@@ -1,5 +1,10 @@
 @extends('layouts.app', ['title' => 'Data Meja - Shoku'])
 
+@section('breadcrumb')
+    <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Data Meja</li>
+@endsection
+
 @section('content')
 <div class="dashboard-wrapper">
 
@@ -52,17 +57,18 @@
                                     <a href="{{ route('admin.meja.edit', $table) }}" class="btn btn-sm btn-outline-secondary px-2 py-1" title="Edit">
                                         <i class="bi bi-pencil"></i>
                                     </a>
-                                    <button
-                                        type="button"
-                                        class="btn btn-sm btn-outline-danger px-2 py-1"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#deleteTableModal"
-                                        data-delete-url="{{ route('admin.meja.destroy', $table) }}"
-                                        data-table-number="{{ $table->table_number }}"
-                                        title="Hapus"
-                                    >
-                                        <i class="bi bi-trash3"></i>
-                                    </button>
+                                    <form action="{{ route('admin.meja.destroy', $table) }}" method="POST" class="d-inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button
+                                            type="submit"
+                                            class="btn btn-sm btn-outline-danger px-2 py-1"
+                                            data-confirm="Meja {{ $table->table_number }} akan dihapus permanen. Lanjutkan?"
+                                            title="Hapus"
+                                        >
+                                            <i class="bi bi-trash3"></i>
+                                        </button>
+                                    </form>
                                 </div>
                             </td>
                         </tr>
@@ -86,54 +92,4 @@
     @endif
 
 </div>
-
-{{-- Delete Table Modal --}}
-<div class="modal fade" id="deleteTableModal" tabindex="-1" aria-labelledby="deleteTableModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-sm">
-        <div class="modal-content border-0 shadow rounded-4">
-            <div class="modal-header border-0 pb-0">
-                <button type="button" class="btn-close ms-auto" data-bs-dismiss="modal" aria-label="Tutup"></button>
-            </div>
-            <div class="modal-body px-4 pt-2 pb-4 text-center">
-                <div class="delete-icon-wrapper mb-3 text-danger">
-                    <i class="bi bi-trash3 fs-1"></i>
-                </div>
-                <h5 class="fw-bold mb-2" id="deleteTableModalLabel">Hapus meja?</h5>
-                <p class="text-muted small mb-0">
-                    Meja <strong class="text-dark" data-delete-table-number></strong> akan dihapus permanen.
-                </p>
-            </div>
-            <div class="modal-footer border-0 justify-content-center gap-2 px-4 pt-0 pb-4">
-                <button type="button" class="btn btn-light rounded-pill px-3" data-bs-dismiss="modal">Batal</button>
-                <form id="deleteTableForm" method="POST">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn btn-danger rounded-pill px-3">
-                        <i class="bi bi-trash3 me-1"></i> Hapus
-                    </button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-@push('scripts')
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const deleteModal = document.getElementById('deleteTableModal');
-        if (deleteModal) {
-            deleteModal.addEventListener('show.bs.modal', (event) => {
-                const trigger = event.relatedTarget;
-                const deleteForm = deleteModal.querySelector('#deleteTableForm');
-                const tableNumber = deleteModal.querySelector('[data-delete-table-number]');
-
-                deleteForm.action = trigger.getAttribute('data-delete-url');
-                tableNumber.textContent = trigger.getAttribute('data-table-number');
-            });
-        }
-    });
-</script>
-@endpush
 @endsection
