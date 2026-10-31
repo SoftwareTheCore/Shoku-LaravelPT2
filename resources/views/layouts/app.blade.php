@@ -35,7 +35,71 @@
         href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
     >
 
+    {{-- SweetAlert2 CSS --}}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    <style>
+        body {
+            background-color: #fbf0ea !important;
+        }
+        body:has(.auth-page-container) {
+            background-color: var(--shoku-primary, #ff5232) !important;
+        }
+        .app-shell, .app-main {
+            min-height: 100vh;
+            background-color: #fbf0ea;
+        }
+
+        /* Desktop sidebar collapse */
+        @media (min-width: 992px) {
+            .app-sidebar {
+                position: sticky;
+                top: 0;
+                height: 100vh;
+                overflow-y: auto;
+                transition: margin-left 0.25s ease-in-out, opacity 0.2s ease-in-out;
+            }
+
+            .app-shell.sidebar-collapsed .app-sidebar,
+            html.sidebar-init-collapsed .app-shell .app-sidebar {
+                margin-left: -260px !important;
+                opacity: 0 !important;
+                visibility: hidden !important;
+                pointer-events: none !important;
+            }
+
+            .app-main {
+                transition: margin-left 0.25s ease-in-out;
+            }
+        }
+
+        /* Breadcrumb styling */
+        .app-breadcrumb-container .breadcrumb {
+            font-size: 0.85rem;
+        }
+        .app-breadcrumb-container .breadcrumb-item a {
+            color: var(--shoku-primary, #ff5232);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .app-breadcrumb-container .breadcrumb-item a:hover {
+            color: var(--shoku-primary-dark, #d93d1f);
+            text-decoration: underline;
+        }
+        .app-breadcrumb-container .breadcrumb-item.active {
+            color: #8c8580;
+            font-weight: 600;
+        }
+    </style>
+
+    <script>
+        // Apply collapsed state before render to avoid flickering
+        if (localStorage.getItem('shokuSidebarCollapsed') === '1' && window.innerWidth >= 992) {
+            document.documentElement.classList.add('sidebar-init-collapsed');
+        }
+    </script>
 
     @stack('styles')
 </head>
@@ -129,12 +193,11 @@
                 <header class="app-topbar">
                     <div class="d-flex align-items-center justify-content-between w-100">
                         <button
-                            class="btn btn-outline-light d-lg-none"
+                            class="btn btn-outline-light me-3 d-inline-flex align-items-center justify-content-center"
                             type="button"
-                            data-bs-toggle="offcanvas"
-                            data-bs-target="#appSidebar"
-                            aria-controls="appSidebar"
-                            aria-label="Buka menu navigasi"
+                            id="appSidebarToggle"
+                            aria-label="Toggle menu navigasi"
+                            style="width: 38px; height: 38px; border-radius: 8px;"
                         >
                             <i class="bi bi-list fs-5"></i>
                         </button>
@@ -159,6 +222,65 @@
                         </div>
                     </div>
                 </header>
+
+                <div class="app-breadcrumb-container px-4 pt-3 pb-0">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb mb-0 align-items-center">
+                            @hasSection('breadcrumb')
+                                @yield('breadcrumb')
+                            @else
+                                <li class="breadcrumb-item">
+                                    <a href="{{ $workspaceUrl }}" class="d-inline-flex align-items-center gap-1">
+                                        <i class="bi bi-house-door-fill"></i>
+                                        <span>Dashboard</span>
+                                    </a>
+                                </li>
+                                @php
+                                    $segments = request()->segments();
+                                    $subSegments = array_slice($segments, 1);
+                                    $currentTab = request('tab');
+                                    $titleMap = [
+                                        'menu-categories' => 'Kategori Menu',
+                                        'menus' => 'Menu Restoran',
+                                        'menu' => 'Menu',
+                                        'orders' => 'Laporan Pesanan',
+                                        'reservations' => 'Laporan Reservasi',
+                                        'karyawan' => 'Data Karyawan',
+                                        'meja' => 'Data Meja',
+                                        'create' => 'Tambah',
+                                        'edit' => 'Ubah'
+                                    ];
+                                @endphp
+                                @if(!empty($subSegments) && !(count($subSegments) === 1 && $subSegments[0] === 'dashboard'))
+                                    @php
+                                        $urlAcc = url($segments[0]);
+                                        $totalSubs = count($subSegments);
+                                    @endphp
+                                    @foreach($subSegments as $idx => $seg)
+                                        @php
+                                            $urlAcc .= '/' . $seg;
+                                            $isLast = ($idx === $totalSubs - 1) && empty($currentTab);
+                                            $segKey = strtolower($seg);
+                                            $label = $titleMap[$segKey] ?? (is_numeric($seg) ? '#' . $seg : ucwords(str_replace(['-', '_'], ' ', $seg)));
+                                        @endphp
+                                        @if($isLast)
+                                            <li class="breadcrumb-item active" aria-current="page">{{ $label }}</li>
+                                        @else
+                                            <li class="breadcrumb-item">
+                                                <a href="{{ $urlAcc }}">{{ $label }}</a>
+                                            </li>
+                                        @endif
+                                    @endforeach
+                                    @if(!empty($currentTab))
+                                        <li class="breadcrumb-item active text-capitalize" aria-current="page">
+                                            {{ ucwords(str_replace(['-', '_'], ' ', $currentTab)) }}
+                                        </li>
+                                    @endif
+                                @endif
+                            @endif
+                        </ol>
+                    </nav>
+                </div>
 
                 <main class="app-content">
                     @yield('content')
@@ -196,6 +318,109 @@
     {{-- Bootstrap JS --}}
     <script
         src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+    </script>
+
+    {{-- SweetAlert2 JS --}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    {{-- Global Frontend Handlers (Pure Vanilla JS) --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Restore desktop collapsed state
+            const appShell = document.querySelector('.app-shell');
+            if (localStorage.getItem('shokuSidebarCollapsed') === '1' && window.innerWidth >= 992) {
+                appShell?.classList.add('sidebar-collapsed');
+            }
+            document.documentElement.classList.remove('sidebar-init-collapsed');
+
+            // Attach single sidebar toggle listener
+            const sidebarToggle = document.getElementById('appSidebarToggle');
+            const sidebarEl = document.getElementById('appSidebar');
+
+            if (sidebarToggle) {
+                sidebarToggle.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    if (window.innerWidth < 992) {
+                        // Mobile: Toggle Bootstrap Offcanvas drawer
+                        if (sidebarEl && typeof bootstrap !== 'undefined') {
+                            const bsOffcanvas = bootstrap.Offcanvas.getOrCreateInstance(sidebarEl);
+                            bsOffcanvas.toggle();
+                        }
+                    } else {
+                        // Desktop: Toggle sidebar-collapsed class on .app-shell
+                        if (appShell) {
+                            const isCollapsed = appShell.classList.toggle('sidebar-collapsed');
+                            localStorage.setItem('shokuSidebarCollapsed', isCollapsed ? '1' : '0');
+                        }
+                    }
+                });
+            }
+
+            // Global SweetAlert2 Session Flash Notifications
+            @if (session('success'))
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil',
+                    text: @json(session('success')),
+                    confirmButtonColor: '#ff5232',
+                    timer: 3000
+                });
+            @endif
+
+            @if (session('error'))
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal',
+                    text: @json(session('error')),
+                    confirmButtonColor: '#ff5232'
+                });
+            @endif
+
+            @if ($errors->any())
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Periksa Kembali Form',
+                    html: '{!! implode("<br>", array_map("e", $errors->all())) !!}',
+                    confirmButtonColor: '#ff5232'
+                });
+            @endif
+
+            // Unified Confirmation Handler with data-confirm (Vanilla JS)
+            document.addEventListener('click', function(e) {
+                const btn = e.target.closest('[data-confirm]');
+                if (!btn) return;
+
+                e.preventDefault();
+                const form = btn.closest('form');
+                const message = btn.getAttribute('data-confirm') || 'Apakah Anda yakin ingin melanjutkan tindakan ini?';
+
+                if (typeof Swal !== 'undefined') {
+                    Swal.fire({
+                        title: 'Konfirmasi',
+                        text: message,
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#ff5232',
+                        cancelButtonColor: '#6c757d',
+                        confirmButtonText: 'Ya, Lanjutkan',
+                        cancelButtonText: 'Batal'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            if (form) {
+                                form.submit();
+                            } else if (btn.getAttribute('href')) {
+                                window.location.href = btn.getAttribute('href');
+                            }
+                        }
+                    });
+                } else if (confirm(message)) {
+                    if (form) form.submit();
+                    else if (btn.getAttribute('href')) window.location.href = btn.getAttribute('href');
+                }
+            });
+        });
     </script>
 
     @auth
