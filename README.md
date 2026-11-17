@@ -1,66 +1,111 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Shoku — Restaurant Reservation & Pre-Order System
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Shoku adalah platform berbasis web untuk manajemen reservasi meja restoran dan pemesanan makanan/minuman (*pre-order*). Sistem ini dirancang untuk mencegah terjadinya *double booking*, mempercepat alur kedatangan pelanggan, serta memudahkan operasional pengelola restoran (Admin dan Staf Karyawan).
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 🌟 Fitur Utama
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### 1. Pelanggan (Customer)
+* **Katalog Menu:** Melihat daftar hidangan lengkap dengan foto, deskripsi, harga, kategori, dan sisa stok.
+* **Cek Ketersediaan Meja Dinamis:** Pengecekan ketersediaan meja secara *real-time* berdasarkan tanggal dan jam yang dipilih.
+* **Reservasi Meja:** Pemesanan meja dengan kapasitas sesuai jumlah tamu dan pencegahan bentrok waktu reservasi (*overlapping reservations*).
+* **Pemesanan Menu (*Pre-order*):** Pelanggan dapat memesan makanan/minuman yang langsung tertaut dengan reservasi aktif mereka.
+* **Riwayat & Status:** Memantau status reservasi (`pending`, `confirmed`, `cancelled`) dan status pesanan.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### 2. Admin (Pengelola Restoran)
+* **Dashboard Operasional:** Ringkasan metrik harian, meja aktif, reservasi masuk, dan pesanan terbaru.
+* **Manajemen Meja:** Pengaturan nomor meja, kapasitas tempat duduk, dan status meja (`available`, `reserved`, `occupied`, `maintenance`).
+* **Manajemen Menu & Kategori:** CRUD kategori hidangan, menu makanan/minuman, unggah foto, harga, penyesuaian stok, dan status ketersediaan.
+* **Manajemen Staf Karyawan:** Menambahkan akun karyawan dan mengaktifkan/menonaktifkan akses staf.
+* **Konfirmasi Reservasi:** Menyetujui reservasi yang berstatus `pending` menjadi `confirmed` serta memperbarui status meja fisik menjadi `reserved`.
+* **Penyelesaian Pesanan & Laporan:** Menandai pesanan selesai, menambahkan catatan admin, dan melihat laporan rekap pendapatan dengan filter harian, mingguan, serta bulanan.
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## 🛠️ Tumpukan Teknologi (Tech Stack)
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+* **Backend:** PHP 8.1+, Laravel 10
+* **Database:** MySQL / MariaDB (Eloquent ORM dengan *pessimistic locking* untuk pencegahan *race conditions*)
+* **Frontend:** Laravel Blade, Bootstrap 5, Custom CSS ([`app.css`](resources/css/app.css))
+* **Identitas Brand:** 
+  * Warna Utama: `--shoku-primary` (`rgb(255, 82, 50)`)
+  * Warna Sekunder: `--shoku-secondary` (`#ffffff`)
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+---
 
-## Laravel Sponsors
+## 🚀 Panduan Instalasi Lokal
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+### 1. Prasyarat
+* PHP >= 8.1
+* Composer
+* Node.js & NPM
+* Database MySQL / MariaDB (misal via XAMPP)
 
-### Premium Partners
+### 2. Langkah Pengaturan
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+1. **Clone repositori:**
+   ```bash
+   git clone <url-repository-anda>
+   cd ShokuPT2
+   ```
 
-## Contributing
+2. **Pasang dependensi PHP & Node.js:**
+   ```bash
+   composer install
+   npm install
+   ```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+3. **Konfigurasi Environment:**
+   Salin file `.env.example` menjadi `.env`:
+   ```bash
+   cp .env.example .env
+   ```
+   Buka file `.env` dan sesuaikan koneksi database Anda:
+   ```env
+   DB_CONNECTION=mysql
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=shoku_db
+   DB_USERNAME=root
+   DB_PASSWORD=
+   ```
 
-## Code of Conduct
+4. **Generate Application Key:**
+   ```bash
+   php artisan key:generate
+   ```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+5. **Jalankan Migrasi Database:**
+   ```bash
+   php artisan migrate
+   ```
 
-## Security Vulnerabilities
+6. **Build Asset Frontend:**
+   ```bash
+   npm run build
+   # atau untuk mode pengembangan:
+   # npm run dev
+   ```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+7. **Jalankan Server Lokal:**
+   ```bash
+   php artisan serve
+   ```
+   Buka browser pada alamat `http://127.0.0.1:8000`.
 
-## License
+---
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## 🧪 Menjalankan Pengujian (Testing)
+
+Aplikasi dilengkapi dengan pengujian fitur (*feature tests*) untuk integritas reservasi meja, pencegahan konflik waktu, dan pemesanan menu:
+
+```bash
+php artisan test
+```
+
+---
+
+## 📄 Dokumentasi Tambahan
+
+Detail spesifikasi kebutuhan sistem dan alur fungsional dapat dibaca pada dokumen [PRD.md](PRD.md).

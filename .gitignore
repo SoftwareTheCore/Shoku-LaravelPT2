@@ -16,3 +16,7 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+.phpunit.result.cache
+/storage/framework/lsp-*.php
+.phpunit.result.cache
+/storage/framework/lsp-*.php
